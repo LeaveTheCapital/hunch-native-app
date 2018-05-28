@@ -33,10 +33,11 @@ export default class App extends React.Component {
       inputRange: [0, 1000],
       outputRange: ["0", "2"]
     });
+    const height = 160;
 
     return <View style={styles.container}>
         <Svg height="200" width="400">
-          <A.Path d={`M30 30 v40 a2.5,2.5 0 0,0 5,0 v-17.5 a2.5,2.5 0 1,1 5,0 v17.5 a2.5,2.5 0 0,0 5,0 v-40 a2.5,2.5 0 0,0 -5,0 v13 a2.5,2.5 0 1,1 -5,0 v-13 a2.5,2.5 0 0,0 -5,0`} fill="yellow" stroke="black" strokeWidth={pathSwell} />
+          <A.Path d={`M30 30 v${height} a${height * 0.0625},${height * 0.0625} 0 0,0 ${height*0.125},0 v${height*-0.4375} a${height * 0.0625},${height * 0.0625} 0 1,1 ${height*0.125},0 v${height*0.4375} a${height * 0.0625},${height * 0.0625} 0 0,0 ${height*0.125},0 v${-height} a${height * 0.0625},${height * 0.0625} 0 0,0 -${height*0.125},0 v${height*0.325} a${height * 0.0625},${height * 0.0625} 0 1,1 -${height*0.125},0 v${height*-0.325} a${height * 0.0625},${height * 0.0625} 0 0,0 -${height*0.125},0`} fill="yellow" stroke="black" strokeWidth={pathSwell} />
         </Svg>
         <View style={{ flex: 1 }}>
           <Animated.Text style={{ fontSize: textAnim }}>
