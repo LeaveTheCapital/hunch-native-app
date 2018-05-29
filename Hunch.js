@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, Animated, Easing } from "react-native";
 import Svg, { Circle, Line, Path } from "react-native-svg";
 import H from './H.js';
 import U from './U.js';
+import N from './N.js';
 import C from './C.js';
 
 const A = {
@@ -22,9 +23,10 @@ export default class Hunch extends React.Component {
     return (<Svg height="280" width="400">
           <H fill="yellow" stroke="black" height={height} initialCoordinates={initialCoordinates} />
           <U fill="red" stroke="black" height={height} initialCoordinates="100 50" />
-          <U fill="mediumvioletred" stroke="black" height={height} initialCoordinates="170 50" />
-          <C fill="whitesmoke" stroke="black" height={height} initialCoordinates="240 60" />
+          <N fill="mediumvioletred" stroke="black" height={height} initialCoordinates="170 50" />
+          <C fill="whitesmoke" stroke="black" height={height} initialCoordinates="240 70" />
           <H fill="powderblue" stroke="black" height={height} initialCoordinates="310 50" />
         </Svg>)
   }
 }
+9940076670395700

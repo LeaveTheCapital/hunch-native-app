@@ -9,6 +9,7 @@ const A = {
 export default class N extends React.Component {
   state = {
     pathAnim: new Animated.Value(0),
+    color: 'yellow'
   };
 
   componentDidMount = () => {
@@ -16,7 +17,7 @@ export default class N extends React.Component {
       toValue: 1000,
       easing: Easing.elastic(15),
       duration: 3000
-    }).start();
+    }).start(()=>this.setState({color: 'white'}));
   };
 
   render() {
@@ -30,15 +31,15 @@ export default class N extends React.Component {
     return (<A.Path d={`M${initialCoordinates} 
     v${height} 
     a${height * 0.0625},${height * 0.0625} 0 0,0 ${height*0.125},0 
-    v${height*-0.875} 
-    a${height * 0.0625},${height * 0.0625} 0 1,1 ${height*0.125},0 
-    v${height*0.4375} 
+    v${height*-0.675} 
+    a${height * 0.00625},${height * 0.00625} 0 1,1 ${height*0.0125},0 
+    l${height*0.1275} ${height*0.68} 
     a${height * 0.0625},${height * 0.0625} 0 0,0 ${height*0.125},0 
     v${-height} 
     a${height * 0.0625},${height * 0.0625} 0 0,0 -${height*0.125},0 
-    v${height*0.325} 
-    a${height * 0.0625},${height * 0.0625} 0 1,1 -${height*0.125},0 
-    v${height*-0.325} 
-    a${height * 0.0625},${height * 0.0625} 0 0,0 -${height*0.125},0`} fill={fill} stroke={stroke} strokeWidth={pathSwell} />)
+    v${height*0.675} 
+    a${height * 0.00625},${height * 0.00625} 0 1,1 -${height*0.0125},0 
+    l${height*-0.1275} ${height*-0.68}  
+    a${height * 0.0625},${height * 0.0625} 0 0,0 -${height*0.125},0`} fill={fill} stroke={this.state.color} strokeWidth={pathSwell} />)
   }
 }

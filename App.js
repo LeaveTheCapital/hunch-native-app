@@ -31,9 +31,9 @@ export default class App extends React.Component {
     return <View style={styles.container}>
         <Hunch height={hunchHeight} initialCoordinates={initialCoordinates}/>
         <View style={{ flex: 1 }}>
-        {user ? <Login /> :
+        {!user ? <Login /> :
         <Animated.Text style={{ fontSize: textAnim, color: 'powderblue', fontStyle: 'italic' }}>
-            WHAT'S {'\n'} YOUR {'\n'} HUNCH
+            WHAT'S {'\n'} YOUR {'\n'} HUNCH?
           </Animated.Text>}
           
         </View>
