@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, Button } from 'react-native';
+import { authDB, auth, db } from './firebase';
 
 import t from 'tcomb-form-native'; // 0.6.9
 
@@ -51,10 +52,43 @@ const options = {
   stylesheet: formStyles,
 };
 
+
 export default class Login extends Component {
+  state = {
+    user: null
+  }
+  
+  componentDidMount() {
+    auth.onAuthStateChanged(user=>{
+      console.log('authstatechange', user);
+      this.setState({ user });
+    })
+  }
+  
   handleSubmit = () => {
-    const value = this._form.getValue();
-    console.log('value: ', value);
+    const { username, email, password } = this._form.getValue();
+    // console.log('value: ', value);
+    if (username && email && password) {
+      authDB.doCreateUserWithEmailAndPassword(email, password)
+      .then(authUser => {
+        console.log('authUser', authUser);
+        const user = {
+          username, email,
+          uid: authUser.user.uid,
+          creation_time: authUser.user.metadata.a
+        };
+        db.addUser(user).then(res => {
+          console.log('res data', res.data);
+          if(res.data.err) {
+            console.log('firestore err', res.data.err)
+          } else {
+            console.log('docRef', res.data.docRef);
+          }
+        })
+      })
+      .catch(err=>console.log)
+    }
+    
   }
   
   render() {
@@ -79,6 +113,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginTop: 50,
     padding: 20,
-    backgroundColor: '#ffffff',
+    backgroundColor: 'hotpink',
   },
 });
