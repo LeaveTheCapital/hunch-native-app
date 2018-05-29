@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet, Text, View, Animated, Easing } from "react-native";
 import Svg, { Circle, Line, Path } from "react-native-svg";
+import Hunch from './Hunch.js'
 
 const A = {
   Line: Animated.createAnimatedComponent(Line),
@@ -10,16 +11,10 @@ const A = {
 
 export default class App extends React.Component {
   state = {
-    pathAnim: new Animated.Value(0),
     textAnim: new Animated.Value(0)
   };
 
   componentDidMount = () => {
-    Animated.timing(this.state.pathAnim, {
-      toValue: 1000,
-      easing: Easing.elastic(15),
-      duration: 3000
-    }).start();
     
     Animated.spring(this.state.textAnim, {
       toValue: 80,
@@ -28,20 +23,15 @@ export default class App extends React.Component {
   };
 
   render() {
-    let { pathAnim, textAnim } = this.state;
-    const pathSwell = pathAnim.interpolate({
-      inputRange: [0, 1000],
-      outputRange: ["0", "2"]
-    });
-    const height = 160;
+    let { textAnim } = this.state;
+    const hunchHeight = 160;
+    const initialCoordinates = '30 50';
 
     return <View style={styles.container}>
-        <Svg height="200" width="400">
-          <A.Path d={`M30 30 v${height} a${height * 0.0625},${height * 0.0625} 0 0,0 ${height*0.125},0 v${height*-0.4375} a${height * 0.0625},${height * 0.0625} 0 1,1 ${height*0.125},0 v${height*0.4375} a${height * 0.0625},${height * 0.0625} 0 0,0 ${height*0.125},0 v${-height} a${height * 0.0625},${height * 0.0625} 0 0,0 -${height*0.125},0 v${height*0.325} a${height * 0.0625},${height * 0.0625} 0 1,1 -${height*0.125},0 v${height*-0.325} a${height * 0.0625},${height * 0.0625} 0 0,0 -${height*0.125},0`} fill="yellow" stroke="black" strokeWidth={pathSwell} />
-        </Svg>
+        <Hunch height={hunchHeight} initialCoordinates={initialCoordinates}/>
         <View style={{ flex: 1 }}>
-          <Animated.Text style={{ fontSize: textAnim }}>
-            HUNCH
+          <Animated.Text style={{ fontSize: textAnim, color: 'powderblue', fontStyle: 'italic' }}>
+            WHAT'S {'\n'} YOUR {'\n'} HUNCH
           </Animated.Text>
         </View>
       </View>;
