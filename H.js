@@ -1,6 +1,6 @@
 import React from "react";
-import { StyleSheet, Text, View, Animated, Easing } from "react-native";
-import Svg, { Circle, Line, Path } from "react-native-svg";
+import { Animated, Easing } from "react-native";
+import { Path } from "react-native-svg";
 
 const A = {
   Path: Animated.createAnimatedComponent(Path)
