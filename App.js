@@ -13,26 +13,25 @@ const A = {
 export default class App extends React.Component {
   state = {
     textAnim: new Animated.Value(0),
-    loggedIn: false
+    user: 1
   };
 
   componentDidMount = () => {
-    
     Animated.spring(this.state.textAnim, {
       toValue: 80,
-      velocity: 0.2
+      velocity: 0.1
     }).start();
   };
 
   render() {
-    let { textAnim, loggedIn } = this.state;
+    let { textAnim, user } = this.state;
     const hunchHeight = 160;
     const initialCoordinates = '30 50';
 
     return <View style={styles.container}>
         <Hunch height={hunchHeight} initialCoordinates={initialCoordinates}/>
         <View style={{ flex: 1 }}>
-        {loggedIn === false ? <Login /> :
+        {user ? <Login /> :
         <Animated.Text style={{ fontSize: textAnim, color: 'powderblue', fontStyle: 'italic' }}>
             WHAT'S {'\n'} YOUR {'\n'} HUNCH
           </Animated.Text>}
