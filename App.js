@@ -1,7 +1,8 @@
 import React from "react";
 import { StyleSheet, Text, View, Animated, Easing } from "react-native";
 import Svg, { Circle, Line, Path } from "react-native-svg";
-import Hunch from './Hunch.js'
+import Hunch from './Hunch.js';
+import Login from './Login.js';
 
 const A = {
   Line: Animated.createAnimatedComponent(Line),
@@ -11,7 +12,8 @@ const A = {
 
 export default class App extends React.Component {
   state = {
-    textAnim: new Animated.Value(0)
+    textAnim: new Animated.Value(0),
+    loggedIn: false
   };
 
   componentDidMount = () => {
@@ -23,16 +25,18 @@ export default class App extends React.Component {
   };
 
   render() {
-    let { textAnim } = this.state;
+    let { textAnim, loggedIn } = this.state;
     const hunchHeight = 160;
     const initialCoordinates = '30 50';
 
     return <View style={styles.container}>
         <Hunch height={hunchHeight} initialCoordinates={initialCoordinates}/>
         <View style={{ flex: 1 }}>
-          <Animated.Text style={{ fontSize: textAnim, color: 'powderblue', fontStyle: 'italic' }}>
+        {loggedIn === false ? <Login /> :
+        <Animated.Text style={{ fontSize: textAnim, color: 'powderblue', fontStyle: 'italic' }}>
             WHAT'S {'\n'} YOUR {'\n'} HUNCH
-          </Animated.Text>
+          </Animated.Text>}
+          
         </View>
       </View>;
   }
