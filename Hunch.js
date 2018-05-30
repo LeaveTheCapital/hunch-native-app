@@ -17,7 +17,7 @@ export default class Hunch extends React.Component {
     const { height, initialCoordinates } = this.props;
 
     return (
-      <Svg height="280" width="400">
+      <Svg height="165" width="400">
         <H
           fill="yellow"
           stroke="black"
