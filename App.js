@@ -1,8 +1,8 @@
 import React from "react";
 import { StyleSheet, Text, View, Animated, Easing } from "react-native";
 import Svg, { Circle, Line, Path } from "react-native-svg";
-import Hunch from './Hunch.js';
-import Login from './Login.js';
+import Hunch from "./Hunch.js";
+import Login from "./Login.js";
 
 const A = {
   Line: Animated.createAnimatedComponent(Line),
@@ -13,6 +13,7 @@ const A = {
 export default class App extends React.Component {
   state = {
     textAnim: new Animated.Value(0),
+    pinkAnim: new Animated.Value(0),
     user: 1
   };
 
@@ -21,23 +22,44 @@ export default class App extends React.Component {
       toValue: 80,
       velocity: 0.1
     }).start();
+    Animated.timing(this.state.pinkAnim, {
+      toValue: 100,
+      delay: 2000,
+      duration: 3000
+    }).start();
   };
 
   render() {
-    let { textAnim, user } = this.state;
+    let { textAnim, pinkAnim, user } = this.state;
     const hunchHeight = 160;
-    const initialCoordinates = '30 50';
+    const initialCoordinates = "30 50";
 
-    return <View style={styles.container}>
-        <Hunch height={hunchHeight} initialCoordinates={initialCoordinates}/>
+    const pinkSwell = pinkAnim.interpolate({
+      inputRange: [0, 100],
+      outputRange: ["rgb(199,21,133)", "rgb(255,105,180)"]
+    });
+
+    return (
+      <View style={styles.container}>
+        <Hunch height={hunchHeight} initialCoordinates={initialCoordinates} />
         <View style={{ flex: 1 }}>
-        {!user ? <Login /> :
-        <Animated.Text style={{ fontSize: textAnim, color: 'powderblue', fontStyle: 'italic' }}>
-            WHAT'S {'\n'} YOUR {'\n'} HUNCH?
-          </Animated.Text>}
-          
+          {!user ? (
+            <Login />
+          ) : (
+            <Animated.Text
+              style={{
+                fontSize: textAnim,
+                color: "powderblue",
+                fontStyle: "italic",
+                backgroundColor: pinkSwell
+              }}
+            >
+              WHAT'S {"\n"} YOUR {"\n"} HUNCH?
+            </Animated.Text>
+          )}
         </View>
-      </View>;
+      </View>
+    );
   }
 }
 
