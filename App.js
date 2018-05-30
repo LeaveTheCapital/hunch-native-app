@@ -15,7 +15,9 @@ export default class App extends React.Component {
   state = {
     textAnim: new Animated.Value(0),
     pinkAnim: new Animated.Value(0),
-    user: 1
+    user: null,
+    hunchHeight: 100,
+    initialCoordinates: "10, 40"
   };
 
   componentDidMount = () => {
@@ -30,10 +32,14 @@ export default class App extends React.Component {
     }).start();
   };
 
+  loginLocally = user => {
+    console.log("user logging in...", user);
+    this.setState({ user, hunchHeight: 30 });
+  };
+
   render() {
-    let { textAnim, pinkAnim, user } = this.state;
-    const hunchHeight = 160;
-    const initialCoordinates = "30 50";
+    let { textAnim, pinkAnim, user, hunchHeight } = this.state;
+    const initialCoordinates = "30 40";
 
     const pinkSwell = pinkAnim.interpolate({
       inputRange: [0, 100],
@@ -48,9 +54,9 @@ export default class App extends React.Component {
     return (
       <View style={styles.container}>
         <A.Hunch height={hunchSwell} initialCoordinates={initialCoordinates} />
-        <View style={{ flex: 1 }}>
+        <View style={styles.userArea}>
           {!user ? (
-            <Login />
+            <Login loginLocally={this.loginLocally} />
           ) : (
             <Animated.Text
               style={{
@@ -60,7 +66,8 @@ export default class App extends React.Component {
                 backgroundColor: pinkSwell
               }}
             >
-              WHAT'S {"\n"} YOUR {"\n"} HUNCH?
+              {user.email ? `${user.email}\n` : ""}WHAT'S {"\n"} YOUR {"\n"}{" "}
+              HUNCH?
             </Animated.Text>
           )}
         </View>
@@ -74,6 +81,12 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#ff69b4",
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "flex-start"
+  },
+  userArea: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "flex-start"
   }
 });
