@@ -7,7 +7,8 @@ import Login from "./Login.js";
 const A = {
   Line: Animated.createAnimatedComponent(Line),
   Circle: Animated.createAnimatedComponent(Circle),
-  Path: Animated.createAnimatedComponent(Path)
+  Path: Animated.createAnimatedComponent(Path),
+  Hunch: Animated.createAnimatedComponent(Hunch)
 };
 
 export default class App extends React.Component {
@@ -39,9 +40,14 @@ export default class App extends React.Component {
       outputRange: ["rgb(199,21,133)", "rgb(255,105,180)"]
     });
 
+    const hunchSwell = textAnim.interpolate({
+      inputRange: [0, 80],
+      outputRange: [0, 100]
+    });
+
     return (
       <View style={styles.container}>
-        <Hunch height={hunchHeight} initialCoordinates={initialCoordinates} />
+        <A.Hunch height={hunchSwell} initialCoordinates={initialCoordinates} />
         <View style={{ flex: 1 }}>
           {!user ? (
             <Login />
