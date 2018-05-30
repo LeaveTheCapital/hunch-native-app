@@ -15,7 +15,7 @@ export default class App extends React.Component {
   state = {
     textAnim: new Animated.Value(0),
     pinkAnim: new Animated.Value(0),
-    user: null,
+    user: {email: 'hiya "user"'},
     hunchHeight: 100,
     initialCoordinates: "10, 40"
   };
@@ -39,7 +39,7 @@ export default class App extends React.Component {
 
   render() {
     let { textAnim, pinkAnim, user, hunchHeight } = this.state;
-    const initialCoordinates = "30 40";
+    const initialCoordinates = [30,40];
 
     const pinkSwell = pinkAnim.interpolate({
       inputRange: [0, 100],
@@ -51,28 +51,49 @@ export default class App extends React.Component {
       outputRange: [0, 100]
     });
 
-    return (
-      <View style={styles.container}>
-        <A.Hunch height={hunchSwell} initialCoordinates={initialCoordinates} />
-        <View style={styles.userArea}>
-          {!user ? (
-            <Login loginLocally={this.loginLocally} />
-          ) : (
-            <Animated.Text
-              style={{
-                fontSize: textAnim,
-                color: "powderblue",
-                fontStyle: "italic",
-                backgroundColor: pinkSwell
-              }}
-            >
-              {user.email ? `${user.email}\n` : ""}WHAT'S {"\n"} YOUR {"\n"}{" "}
-              HUNCH?
-            </Animated.Text>
-          )}
+    const hunchSwellSmall = textAnim.interpolate({
+      inputRange: [0, 80],
+      outputRange: [0, 30]
+    });
+    if (!user) {
+      return (
+        <View style={styles.container}>
+          
+              <A.Hunch
+                height={hunchSwell}
+                initialCoordinates={initialCoordinates}
+                distance={70}
+              />
+            <View style={styles.userArea}>
+              <Login loginLocally={this.loginLocally} />
+            </View>
+          
         </View>
-      </View>
-    );
+      );
+    } else {
+      return (
+        <View style={styles.container}>
+              <A.Hunch
+                height={hunchSwellSmall}
+                initialCoordinates={initialCoordinates}
+                distance={20}
+              />
+            <View style={styles.userArea}>
+              <Animated.Text
+                style={{
+                  fontSize: textAnim,
+                  color: "powderblue",
+                  fontStyle: "italic",
+                  backgroundColor: pinkSwell
+                }}
+              >
+                {user.email ? `${user.email}\n` : ""}WHAT'S {"\n"} YOUR {"\n"}{" "}
+                HUNCH?
+              </Animated.Text>
+            </View>
+        </View>
+      );
+    }
   }
 }
 
