@@ -20,7 +20,7 @@ export default class App extends React.Component {
   state = {
     textAnim: new Animated.Value(0),
     pinkAnim: new Animated.Value(0),
-    user: { username: "henry231" },
+    user: null,
     hunchHeight: 100,
     initialCoordinates: "10, 40"
   };
@@ -78,8 +78,7 @@ export default class App extends React.Component {
   };
 
   signOut = () => {
-    const { user } = this.state;
-    console.log("signing out..");
+    authDB.doSignOut();
   };
 
   render() {
@@ -106,6 +105,8 @@ export default class App extends React.Component {
         <View style={styles.container}>
           <A.Hunch
             height={hunchSwell}
+            svgHeight="165"
+            svgWidth="400"
             initialCoordinates={initialCoordinates}
             distance={70}
           />
@@ -124,7 +125,7 @@ export default class App extends React.Component {
               signOut={this.signOut}
             />
           }
-          openDrawerOffset={130}
+          openDrawerOffset={300}
           styles={drawerStyles}
           tweenHandler={Drawer.tweenPresets.parallax}
           ref={ref => (this._drawer = ref)}
@@ -132,6 +133,7 @@ export default class App extends React.Component {
           <Home
             styles={styles}
             hunchSwellSmall={hunchSwellSmall}
+            hunchHeight={hunchHeight}
             smallCoordinates={smallCoordinates}
             user={user}
             openDrawer={this.openDrawer}
@@ -160,9 +162,9 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start"
   },
   userArea: {
-    flex: 1,
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "flex-start"
+    flex: 1
+    // flexDirection: "column",
+    // justifyContent: "flex-start",
+    // alignItems: "center"
   }
 });

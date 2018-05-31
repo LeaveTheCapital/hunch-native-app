@@ -54,66 +54,19 @@ const options = {
 };
 
 export default class Login extends Component {
-  componentDidMount() {}
-
   handleSubmit = () => {
     const { loginLocally } = this.props;
     const { username, email, password } = this._form.getValue();
     if (username && email && password) {
       authDB
         .doCreateUserWithEmailAndPassword(email, password)
-        .then(authUser => {
-          //   console.log('authUser', authUser);
-          //   const user = {
-          //     username,
-          //     email,
-          //     uid: authUser.user.uid,
-          //     creation_time: authUser.user.metadata.a
-          //   };
-          //   return Promise.all([user, db.addUser(user)]).then(([user, res]) => {
-          //     console.log("res data", res.data);
-          //     console.log("user", user);
-          //     ``;
-          //     if (res.data.err) {
-          //       console.log("firestore err", res.data.err);
-          //     } else {
-          //       console.log("docRef", res.data.docRef);
-          //       axios
-          //         .get(
-          //           `https://us-central1-test-database-92434.cloudfunctions.net/getUserInfo?uid=${
-          //             user.uid
-          //           }`
-          //         )
-          //         .then(userDoc => {
-          //           console.log(userDoc.data);
-          //           loginLocally(userDoc.data);
-          //         })
-          //         .catch(console.log);
-          //     }
-          //   });
-        })
+        .then(authUser => {})
         .catch(err => console.log);
     } else if (email && password && !username) {
       authDB
         .doSignInWithEmailAndPassword(email, password)
         .then(authUser => {
           console.log("signed in");
-
-          //   axios
-          //     .get(
-          //       `https://us-central1-test-database-92434.cloudfunctions.net/getUserInfo?uid=${
-          //         authUser.user.uid
-          //       }`
-          //     )
-          //     .then(userDoc => {
-          //       console.log(userDoc.data);
-          //       if (!userDoc.data.username) {
-          //         loginLocally(null);
-          //       } else {
-          //         loginLocally(userDoc.data);
-          //       }
-          //     })
-          //     .catch(console.log);
         })
         .catch(console.log);
     }

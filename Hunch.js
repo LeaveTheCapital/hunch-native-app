@@ -1,23 +1,23 @@
 import React from "react";
 import { StyleSheet, Text, View, Animated, Easing } from "react-native";
-import Svg, { Circle, Line, Path } from "react-native-svg";
+import Svg from "react-native-svg";
 import H from "./H.js";
 import U from "./U.js";
 import N from "./N.js";
 import C from "./C.js";
 
-const A = {
-  Line: Animated.createAnimatedComponent(Line),
-  Circle: Animated.createAnimatedComponent(Circle),
-  Path: Animated.createAnimatedComponent(Path)
-};
-
 export default class Hunch extends React.Component {
   render() {
-    const { height, distance, initialCoordinates } = this.props;
+    const {
+      height,
+      svgHeight,
+      svgWidth,
+      distance,
+      initialCoordinates
+    } = this.props;
 
     return (
-      <Svg height="165" width="400">
+      <Svg height={svgHeight} width={svgWidth}>
         <H
           fill="yellow"
           stroke="black"
@@ -56,4 +56,3 @@ export default class Hunch extends React.Component {
     );
   }
 }
-9940076670395700;
