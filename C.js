@@ -11,7 +11,7 @@ export default class C extends React.Component {
   state = {
     pathAnim: new Animated.Value(0),
     redAnim: new Animated.Value(0),
-    color: "purple"
+    color: "orange"
   };
 
   componentDidMount = () => {
@@ -25,7 +25,7 @@ export default class C extends React.Component {
       toValue: 1000,
       easing: Easing.elastic(15),
       duration: 3000
-    }).start(() => this.setState({ color: "orange" }));
+    }).start(() => this.setState({ color: "yellow" }));
   };
 
   render() {
@@ -33,15 +33,13 @@ export default class C extends React.Component {
     const { height, initialCoordinates, fill, stroke } = this.props;
     const pathSwell = pathAnim.interpolate({
       inputRange: [0, 1000],
-      outputRange: ["0", "2"]
+      outputRange: ["0", `${height / 50}`]
     });
 
     const redSwell = redAnim.interpolate({
       inputRange: [0, 1000],
       outputRange: ["rgb(100,121,100)", "rgb(199,21,133)"]
     });
-
-    console.log(redSwell, redSwell.__getAnimatedValue());
 
     return (
       <A.Path
