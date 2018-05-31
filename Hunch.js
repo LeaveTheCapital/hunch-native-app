@@ -14,7 +14,7 @@ const A = {
 
 export default class Hunch extends React.Component {
   render() {
-    const { height, initialCoordinates, distance } = this.props;
+    const { height, distance, initialCoordinates } = this.props;
 
     return (
       <Svg height="165" width="400">
@@ -28,25 +28,29 @@ export default class Hunch extends React.Component {
           fill="red"
           stroke="black"
           height={height}
-          initialCoordinates={`${initialCoordinates[0]+distance} ${initialCoordinates[1]*1.2}`}
+          initialCoordinates={`${initialCoordinates[0] +
+            distance} ${initialCoordinates[1] * 1.2}`}
         />
         <N
           fill="mediumvioletred"
           stroke="black"
           height={height}
-          initialCoordinates={`${initialCoordinates[0]+distance*2} ${initialCoordinates[1]*1.2}`}
+          initialCoordinates={`${initialCoordinates[0] +
+            distance * 2} ${initialCoordinates[1] * 1.2}`}
         />
         <C
           fill="whitesmoke"
           stroke="black"
           height={height}
-          initialCoordinates={`${initialCoordinates[0]+distance*3} ${initialCoordinates[1]*1.25}`}
+          initialCoordinates={`${initialCoordinates[0] +
+            distance * 3} ${initialCoordinates[1] * 1.25}`}
         />
         <H
           fill="cornflowerblue"
           stroke="black"
           height={height}
-          initialCoordinates={`${initialCoordinates[0]+distance*4} ${initialCoordinates[1]*1.2}`}
+          initialCoordinates={`${initialCoordinates[0] +
+            distance * 4} ${initialCoordinates[1] * 1.2}`}
         />
       </Svg>
     );

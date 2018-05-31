@@ -1,8 +1,13 @@
 import React from "react";
 import { StyleSheet, Text, View, Animated, Easing } from "react-native";
 import Svg, { Circle, Line, Path } from "react-native-svg";
+import { authDB, auth, db } from "./firebase";
+import axios from "axios";
+import Drawer from "react-native-drawer";
 import Hunch from "./Hunch.js";
 import Login from "./Login.js";
+import Home from "./Home.js";
+import ControlPanel from "./ControlPanel.js";
 
 const A = {
   Line: Animated.createAnimatedComponent(Line),
@@ -15,12 +20,35 @@ export default class App extends React.Component {
   state = {
     textAnim: new Animated.Value(0),
     pinkAnim: new Animated.Value(0),
-    user: {email: 'hiya "user"'},
+    user: { username: "henry231" },
     hunchHeight: 100,
     initialCoordinates: "10, 40"
   };
 
   componentDidMount = () => {
+    auth.onAuthStateChanged(user => {
+      console.log("authstatechange", user);
+      if (user) {
+        axios
+          .get(
+            `https://us-central1-test-database-92434.cloudfunctions.net/getUserInfo?uid=${
+              user.uid
+            }`
+          )
+          .then(userDoc => {
+            console.log("logginLocally", userDoc);
+            if (!userDoc.data.username) {
+              this.loginLocally(null);
+            } else {
+              this.loginLocally(userDoc.data);
+            }
+          })
+          .catch(console.log);
+      } else {
+        this.loginLocally(null);
+      }
+    });
+
     Animated.spring(this.state.textAnim, {
       toValue: 80,
       velocity: 0.1
@@ -32,14 +60,32 @@ export default class App extends React.Component {
     }).start();
   };
 
+  closeDrawer = () => {
+    this._drawer.close();
+  };
+  openDrawer = () => {
+    this._drawer.open();
+  };
+
   loginLocally = user => {
-    console.log("user logging in...", user);
-    this.setState({ user, hunchHeight: 30 });
+    if (user) {
+      const newUser = { ...user };
+      console.log("user logging in...", user.username);
+      this.setState({ user: newUser, hunchHeight: 30 });
+    } else {
+      this.setState({ user });
+    }
+  };
+
+  signOut = () => {
+    const { user } = this.state;
+    console.log("signing out..");
   };
 
   render() {
     let { textAnim, pinkAnim, user, hunchHeight } = this.state;
-    const initialCoordinates = [30,40];
+    const initialCoordinates = [30, 40];
+    const smallCoordinates = [10, 40];
 
     const pinkSwell = pinkAnim.interpolate({
       inputRange: [0, 100],
@@ -58,44 +104,53 @@ export default class App extends React.Component {
     if (!user) {
       return (
         <View style={styles.container}>
-          
-              <A.Hunch
-                height={hunchSwell}
-                initialCoordinates={initialCoordinates}
-                distance={70}
-              />
-            <View style={styles.userArea}>
-              <Login loginLocally={this.loginLocally} />
-            </View>
-          
+          <A.Hunch
+            height={hunchSwell}
+            initialCoordinates={initialCoordinates}
+            distance={70}
+          />
+          <View style={styles.userArea}>
+            <Login loginLocally={this.loginLocally} />
+          </View>
         </View>
       );
     } else {
       return (
-        <View style={styles.container}>
-              <A.Hunch
-                height={hunchSwellSmall}
-                initialCoordinates={initialCoordinates}
-                distance={20}
-              />
-            <View style={styles.userArea}>
-              <Animated.Text
-                style={{
-                  fontSize: textAnim,
-                  color: "powderblue",
-                  fontStyle: "italic",
-                  backgroundColor: pinkSwell
-                }}
-              >
-                {user.email ? `${user.email}\n` : ""}WHAT'S {"\n"} YOUR {"\n"}{" "}
-                HUNCH?
-              </Animated.Text>
-            </View>
-        </View>
+        <Drawer
+          type="displace"
+          content={
+            <ControlPanel
+              closeDrawer={this.closeDrawer}
+              signOut={this.signOut}
+            />
+          }
+          openDrawerOffset={130}
+          styles={drawerStyles}
+          tweenHandler={Drawer.tweenPresets.parallax}
+          ref={ref => (this._drawer = ref)}
+        >
+          <Home
+            styles={styles}
+            hunchSwellSmall={hunchSwellSmall}
+            smallCoordinates={smallCoordinates}
+            user={user}
+            openDrawer={this.openDrawer}
+          />
+        </Drawer>
       );
     }
   }
 }
+
+const drawerStyles = {
+  drawer: {
+    backgroundColor: "cornflowerblue",
+    shadowColor: "seagreen",
+    shadowOpacity: 0.8,
+    shadowRadius: 3
+  },
+  main: { paddingLeft: 3 }
+};
 
 const styles = StyleSheet.create({
   container: {

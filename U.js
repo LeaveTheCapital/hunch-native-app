@@ -17,7 +17,7 @@ export default class U extends React.Component {
       toValue: 1000,
       easing: Easing.elastic(15),
       duration: 3000
-    }).start(() => this.setState({ color: "yellow" }));
+    }).start(() => this.setState({ color: "orange" }));
   };
 
   render() {
@@ -25,7 +25,7 @@ export default class U extends React.Component {
     const { height, initialCoordinates, fill, stroke } = this.props;
     const pathSwell = pathAnim.interpolate({
       inputRange: [0, 1000],
-      outputRange: ["0", "2"]
+      outputRange: ["0", `${height / 50}`]
     });
 
     return (

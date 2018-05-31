@@ -9,7 +9,7 @@ const A = {
 export default class H extends React.Component {
   state = {
     pathAnim: new Animated.Value(0),
-    color: "blue"
+    color: "orange"
   };
 
   componentDidMount = () => {
@@ -17,7 +17,7 @@ export default class H extends React.Component {
       toValue: 1000,
       easing: Easing.elastic(15),
       duration: 3000
-    }).start(() => this.setState({ color: "orange" }));
+    }).start(() => this.setState({ color: "blue" }));
   };
 
   render() {
@@ -25,7 +25,7 @@ export default class H extends React.Component {
     const { height, initialCoordinates, fill, stroke } = this.props;
     const pathSwell = pathAnim.interpolate({
       inputRange: [0, 1000],
-      outputRange: ["0", "2"]
+      outputRange: ["0", `${height / 50}`]
     });
 
     return (

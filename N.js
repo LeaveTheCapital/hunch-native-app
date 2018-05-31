@@ -7,10 +7,7 @@ const A = {
 };
 
 export default class N extends React.Component {
-  state = {
-    pathAnim: new Animated.Value(0),
-    color: "yellow"
-  };
+  state = { pathAnim: new Animated.Value(0), color: "yellow" };
 
   componentDidMount = () => {
     Animated.timing(this.state.pathAnim, {
@@ -19,7 +16,10 @@ export default class N extends React.Component {
       duration: 1000
     }).start(() => {
       this.setState(
-        { color: "cornflowerblue", pathAnim: new Animated.Value(0) },
+        {
+          color: "cornflowerblue",
+          pathAnim: new Animated.Value(0)
+        },
         () => {
           Animated.timing(this.state.pathAnim, {
             toValue: 1000,
@@ -36,7 +36,7 @@ export default class N extends React.Component {
     const { height, initialCoordinates, fill, stroke } = this.props;
     const pathSwell = pathAnim.interpolate({
       inputRange: [0, 1000],
-      outputRange: ["0", "2"]
+      outputRange: ["0", `${height / 50}`]
     });
 
     return (
