@@ -60,7 +60,16 @@ export default class Login extends Component {
     if (username && email && password) {
       authDB
         .doCreateUserWithEmailAndPassword(email, password)
-        .then(authUser => {})
+        .then(authUser => {
+          // console.log('authUser', authUser);
+          const user = {
+            username,
+            email,
+            uid: authUser.user.uid,
+            creation_time: authUser.user.metadata.a
+          };
+          db.addUser(user);
+        })
         .catch(err => console.log);
     } else if (email && password && !username) {
       authDB

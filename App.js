@@ -8,6 +8,7 @@ import Hunch from "./Hunch.js";
 import Login from "./Login.js";
 import Home from "./Home.js";
 import ControlPanel from "./ControlPanel.js";
+import { styles } from "./StyleSheet.js";
 
 const A = {
   Line: Animated.createAnimatedComponent(Line),
@@ -27,23 +28,19 @@ export default class App extends React.Component {
 
   componentDidMount = () => {
     auth.onAuthStateChanged(user => {
-      console.log("authstatechange", user);
+      console.log("authstatechange", user.data);
       if (user) {
-        axios
-          .get(
-            `https://us-central1-test-database-92434.cloudfunctions.net/getUserInfo?uid=${
-              user.uid
-            }`
-          )
-          .then(userDoc => {
+        Promise.all([user.uid, db.getUserInfo(user.uid)])
+
+          .then(([uid, userDoc]) => {
             console.log("logginLocally", userDoc);
             if (!userDoc.data.username) {
-              this.loginLocally(null);
+              this.loginLocally(null, null);
             } else {
-              this.loginLocally(userDoc.data);
+              this.loginLocally(userDoc.data, uid);
             }
           })
-          .catch(console.log);
+          .catch(err => console.log("failed to get user info", err));
       } else {
         this.loginLocally(null);
       }
@@ -51,7 +48,8 @@ export default class App extends React.Component {
 
     Animated.spring(this.state.textAnim, {
       toValue: 80,
-      velocity: 0.1
+      velocity: 0.1,
+      duration: 3000
     }).start();
     Animated.timing(this.state.pinkAnim, {
       toValue: 100,
@@ -67,9 +65,10 @@ export default class App extends React.Component {
     this._drawer.open();
   };
 
-  loginLocally = user => {
+  loginLocally = (user, uid) => {
     if (user) {
       const newUser = { ...user };
+      newUser.uid = uid;
       console.log("user logging in...", user.username);
       this.setState({ user: newUser, hunchHeight: 30 });
     } else {
@@ -81,9 +80,25 @@ export default class App extends React.Component {
     authDB.doSignOut();
   };
 
+  changeUserTickets = () => {
+    const { user } = this.state;
+    db
+      .getUserInfo(user.uid)
+      .then(userDoc => {
+        const newTickets = userDoc.data.tickets;
+        console.log("new tickets", newTickets);
+        const newUser = { ...this.state.user };
+        newUser.tickets = newTickets;
+        this.setState({ user: newUser });
+      })
+      .catch(err =>
+        console.log("failed to get user info after ticket update", err)
+      );
+  };
+
   render() {
     let { textAnim, pinkAnim, user, hunchHeight } = this.state;
-    const initialCoordinates = [30, 40];
+    const initialCoordinates = [30, 45];
     const smallCoordinates = [10, 40];
 
     const pinkSwell = pinkAnim.interpolate({
@@ -102,7 +117,7 @@ export default class App extends React.Component {
     });
     if (!user) {
       return (
-        <View style={styles.container}>
+        <View style={styles.loginContainer}>
           <A.Hunch
             height={hunchSwell}
             svgHeight="165"
@@ -123,9 +138,12 @@ export default class App extends React.Component {
             <ControlPanel
               closeDrawer={this.closeDrawer}
               signOut={this.signOut}
+              user={user}
             />
           }
-          openDrawerOffset={300}
+          openDrawerOffset={290}
+          closedDrawerOffset={-3}
+          captureGestures={true}
           styles={drawerStyles}
           tweenHandler={Drawer.tweenPresets.parallax}
           ref={ref => (this._drawer = ref)}
@@ -137,6 +155,7 @@ export default class App extends React.Component {
             smallCoordinates={smallCoordinates}
             user={user}
             openDrawer={this.openDrawer}
+            changeUserTickets={this.changeUserTickets}
           />
         </Drawer>
       );
@@ -146,7 +165,7 @@ export default class App extends React.Component {
 
 const drawerStyles = {
   drawer: {
-    backgroundColor: "cornflowerblue",
+    backgroundColor: "white",
     shadowColor: "seagreen",
     shadowOpacity: 0.8,
     shadowRadius: 3
@@ -154,17 +173,17 @@ const drawerStyles = {
   main: { paddingLeft: 3 }
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#ff69b4",
-    alignItems: "center",
-    justifyContent: "flex-start"
-  },
-  userArea: {
-    flex: 1
-    // flexDirection: "column",
-    // justifyContent: "flex-start",
-    // alignItems: "center"
-  }
-});
+// const styles = StyleSheet.create({
+//   loginContainer: {
+//     flex: 1,
+//     backgroundColor: "#ff69b4",
+//     alignItems: "center",
+//     justifyContent: "flex-start"
+//   },
+//   userArea: {
+//     flex: 1
+//     // flexDirection: "column",
+//     // justifyContent: "flex-start",
+//     // alignItems: "center"
+//   }
+// });
