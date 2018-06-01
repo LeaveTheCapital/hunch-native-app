@@ -3,14 +3,18 @@ import { View, Text, TouchableHighlight } from "react-native";
 
 export default class Button extends Component {
   render() {
-    const { style, onPress, text } = this.props;
+    const { style, onPress, text, disabled, disabledStyle } = this.props;
     return (
       <TouchableHighlight
-        style={style}
+        style={disabled ? disabledStyle : disabled}
         underlayColor="#B5B5B5"
-        onPress={() => {
-          onPress();
-        }}
+        onPress={
+          disabled
+            ? null
+            : () => {
+                onPress();
+              }
+        }
       >
         <Text>{text}</Text>
       </TouchableHighlight>

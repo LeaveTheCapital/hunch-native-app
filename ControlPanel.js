@@ -1,13 +1,15 @@
 import React, { Component } from "react";
 import { StyleSheet, View, Text } from "react-native";
+import { styles } from "./StyleSheet";
 
 import Button from "./Button";
 
 export default class ControlPanel extends Component {
   render() {
+    const { user } = this.props;
     return (
       <View style={styles.controlPanel}>
-        <Text style={styles.controlPanelWelcome}>Control Panel</Text>
+        <Text style={styles.controlPanelWelcome}>{user.username}</Text>
         <Button
           onPress={() => {
             this.props.closeDrawer();
@@ -25,19 +27,3 @@ export default class ControlPanel extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  controlPanel: {
-    marginTop: 20,
-    paddingTop: 10,
-    backgroundColor: "cornflowerblue"
-  },
-  controlPanelWelcome: {
-    color: "pink",
-    fontSize: 20
-  },
-  signOutButton: {
-    borderWidth: 3,
-    borderColor: "black"
-  }
-});
