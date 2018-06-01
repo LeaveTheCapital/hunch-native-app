@@ -15,7 +15,7 @@ export const sendFCMTokenToServer = fcmToken => {
 };
 
 export const getUserInfo = uid => {
-  return axios.get(`${getUserInfoUrl}uid=${uid}`);
+  return axios.get(`${getUserInfoUrl}?uid=${uid}`);
 };
 
 export const getNextEvent = () => {

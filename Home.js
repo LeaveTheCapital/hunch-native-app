@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Animated, TouchableNativeFeedback } from "react-native";
+import { View, Text, Animated, TouchableNativeFeedback } from "react-native";
 import { db, firestore } from "./firebase";
 import Hunch from "./Hunch.js";
 import Event from "./Event.js";
@@ -34,31 +34,31 @@ export default class Home extends Component {
         });
       })
       .catch(console.log);
-    // const currentQRef = firestore
-    //   .collection("Current_Questions")
-    //   .where("live", "==", "true");
-    // currentQRef.onSnapshot(snap => {
-    //   console.log("snap", snap);
-    //   if (snap.docs.length) {
-    //     const data = snap.docs[0].data();
-    //     console.log("data", data);
-    //     let answers;
-    //     if (data.ans === 3) {
-    //       answers = [data.ans_a, data.ans_b, data.ans_c];
-    //     } else if (data.ans === 2) {
-    //       answers = [data.ans_a, data.ans_b];
-    //     }
-    //     this.setState({
-    //       currentQ: {
-    //         question: data.question,
-    //         answers,
-    //         last_for: data.last_for
-    //       }
-    //     });
-    //   } else {
-    //     this.setState({ currentQ: null });
-    //   }
-    // });
+    const currentQRef = firestore
+      .collection("Current_Questions")
+      .where("live", "==", "true");
+    currentQRef.onSnapshot(snap => {
+      // console.log("snap", snap);
+      if (snap.docs.length) {
+        const data = snap.docs[0].data();
+        console.log("data", data);
+        let answers;
+        if (data.ans === 3) {
+          answers = [data.ans_a, data.ans_b, data.ans_c];
+        } else if (data.ans === 2) {
+          answers = [data.ans_a, data.ans_b];
+        }
+        this.setState({
+          currentQ: {
+            question: data.question,
+            answers,
+            last_for: data.last_for
+          }
+        });
+      } else {
+        this.setState({ currentQ: null });
+      }
+    });
   }
 
   handleBuyInPress = () => {
@@ -113,7 +113,9 @@ export default class Home extends Component {
               user={user}
               handleBuyInPress={this.handleBuyInPress}
             />
-            <View style={{ flex: 2 }} />
+            <View style={{ flex: 2 }}> 
+            <Text>{this.state.currentQ ? `${this.state.currentQ.question} ${this.state.currentQ.answers[0]} ${this.state.currentQ.answers[1]}`: 'no questions yet'}</Text>
+            </View>
           </View>
         }
       </View>

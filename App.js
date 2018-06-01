@@ -28,12 +28,11 @@ export default class App extends React.Component {
 
   componentDidMount = () => {
     auth.onAuthStateChanged(user => {
-      console.log("authstatechange", user.data);
+      console.log("authstatechange", user);
       if (user) {
         Promise.all([user.uid, db.getUserInfo(user.uid)])
-
           .then(([uid, userDoc]) => {
-            console.log("logginLocally", userDoc);
+            console.log("logginLocally", userDoc.data);
             if (!userDoc.data.username) {
               this.loginLocally(null, null);
             } else {
