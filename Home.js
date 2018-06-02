@@ -3,6 +3,7 @@ import { View, Text, Animated, TouchableNativeFeedback } from "react-native";
 import { db, firestore } from "./firebase";
 import Hunch from "./Hunch.js";
 import Event from "./Event.js";
+import Lobby from './Lobby.js';
 import Tickets from "./Tickets.js";
 import { styles } from "./StyleSheet.js";
 
@@ -20,7 +21,8 @@ const userAreaStyle = {
 
 export default class Home extends Component {
   state = {
-    nextEvent: null
+    nextEvent: null,
+    lobby: false
   };
 
   componentDidMount() {
@@ -34,7 +36,12 @@ export default class Home extends Component {
         });
       })
       .catch(console.log);
-    const currentQRef = firestore
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const {lobby} = this.state;
+    if (lobby) {
+      const currentQRef = firestore
       .collection("Current_Questions")
       .where("live", "==", "true");
     currentQRef.onSnapshot(snap => {
@@ -59,6 +66,7 @@ export default class Home extends Component {
         this.setState({ currentQ: null });
       }
     });
+    }
   }
 
   handleBuyInPress = () => {
@@ -78,8 +86,12 @@ export default class Home extends Component {
       .catch(console.log);
   };
 
+  enterLobby = () => {
+    this.setState({lobby: true})
+  }
+
   render() {
-    const { nextEvent } = this.state;
+    const { nextEvent, lobby } = this.state;
     const {
       hunchSwellSmall,
       hunchHeight,
@@ -102,8 +114,7 @@ export default class Home extends Component {
           </View>
         </TouchableNativeFeedback>
         <Tickets tickets={user.tickets} />
-        {
-          <View style={styles.userArea}>
+        {!lobby ? <View style={styles.userArea}>
             <Animated.Text style={userAreaStyle}>
               {`${user.username}\n WHAT'S ${"\n"} YOUR ${"\n "}`}
               HUNCH?
@@ -112,11 +123,12 @@ export default class Home extends Component {
               nextEvent={nextEvent}
               user={user}
               handleBuyInPress={this.handleBuyInPress}
+              enterLobby={this.enterLobby}
             />
             <View style={{ flex: 2 }}> 
-            <Text>{this.state.currentQ ? `${this.state.currentQ.question} ${this.state.currentQ.answers[0]} ${this.state.currentQ.answers[1]}`: 'no questions yet'}</Text>
+            
             </View>
-          </View>
+          </View> : <Lobby />
         }
       </View>
     );

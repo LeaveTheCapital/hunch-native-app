@@ -11,6 +11,10 @@ import Button from "./Button";
 import { styles } from "./StyleSheet.js";
 
 export default class Event extends Component {
+  handleEnterLobbyPress = () => {
+    const { enterLobby } = this.props;
+    enterLobby();
+  }
   render() {
     const { nextEvent, user, handleBuyInPress } = this.props;
     let disabled = false;
@@ -53,7 +57,7 @@ export default class Event extends Component {
           ) : !lobbyOpen ? (
             <Text>Event starts in... {timeUntilEvent};</Text>
           ) : (
-            <Button text="Enter Lobby" style={styles.buyInButton} />
+            <Button text="Enter Lobby" style={styles.buyInButton} onPress={this.handleEnterLobbyPress} />
           )}
         </View>
       );
