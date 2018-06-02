@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, View, Animated, Easing } from "react-native";
+import { StyleSheet, Text, View, Animated, Easing, YellowBox } from "react-native";
 import Svg, { Circle, Line, Path } from "react-native-svg";
 import { authDB, auth, db } from "./firebase";
 import axios from "axios";
@@ -9,6 +9,8 @@ import Login from "./Login.js";
 import Home from "./Home.js";
 import ControlPanel from "./ControlPanel.js";
 import { styles } from "./StyleSheet.js";
+
+YellowBox.ignoreWarnings(['Setting'])
 
 const A = {
   Line: Animated.createAnimatedComponent(Line),
