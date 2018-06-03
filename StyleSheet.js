@@ -88,10 +88,25 @@ export const styles = StyleSheet.create({
     // top: 40,
     // right: 90,
     width: 300,
-    height: 200,
+    height: 230,
     borderWidth: 2,
     borderColor: 'white',
     borderRadius: 3,
     backgroundColor: 'cornflowerblue'
+  },
+  questionTitle: {
+    fontSize: 25,
+    fontStyle: 'italic',
+    padding: 5
+  },
+  answerText: {
+    fontSize: 15,
+    color: 'mediumvioletred',
+    padding: 10,
+    marginTop: 2.5,
+    marginRight: 5,
+    marginLeft: 5,
+    backgroundColor: 'white',
+    borderRadius: 3
   }
 });

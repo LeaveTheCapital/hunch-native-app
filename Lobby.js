@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import { View, Text, Animated, Modal, TouchableHighlight } from "react-native";
 import SvgImage from 'react-native-remote-svg';
 import { db, firestore } from "./firebase";
-import {styles} from './StyleSheet.js'
+import Question from './Question.js'
+import { styles } from './StyleSheet.js'
 
 const A = {
   SvgImage: Animated.createAnimatedComponent(SvgImage)
@@ -76,24 +77,10 @@ export default class Lobby extends Component {
     return (<View>
       <View>
       <Text>Lobby</Text>
-      {currentQ ? <Modal animationType="slide" visible={currentQ.live} transparent={true} onRequestClose={() => {
-            alert('Modal has been closed.');
-          }}>
-          <View style={styles.questionModalOuter}>
-          <View style={styles.questionModal}>
-            <Text style={styles.questionTitle}>{`${currentQ.question}`}</Text>
-            <TouchableHighlight onPress={this.handleAnswerPress}>
-            <Text>{`${currentQ.answers[0]}`}</Text>
-            </TouchableHighlight>
-            <TouchableHighlight onPress={this.handleAnswerPress}>            
-            <Text>{`${currentQ.answers[1]}`}</Text>
-            </TouchableHighlight>            
-          </View>
-          </View>
-            </Modal> : <Text>'no questions yet'</Text>}
+      {currentQ ? <Question currentQ={currentQ} handleAnswerPress={this.handleAnswerPress}/> : <Text>'no questions yet'</Text>}
       </View>
-      <Animated.Image style={{width: 100, height: brainHeight }} source={{uri: 'http://pluspng.com/img-png/brain-png-red-brain-image-2540-2400.png'}} />
-      <A.SvgImage style={{width: 100, height: brainHeight, backgroundColor: 'cornflowerblue'}} source={require('./svg/brain.svg')} />
+      <Animated.Image style={{width: brainHeight, height: brainHeight }} source={{uri: 'http://pluspng.com/img-png/brain-png-red-brain-image-2540-2400.png'}} />
+      <A.SvgImage style={{width: brainHeight, height: brainHeight, backgroundColor: 'cornflowerblue', borderRadius: 25}} source={require('./svg/brain.svg')} />
     </View>);
   }
 }
