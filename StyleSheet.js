@@ -76,5 +76,22 @@ export const styles = StyleSheet.create({
     borderRadius: 5,
     padding: 2,
     opacity: 0.5
+  },
+  questionModalOuter: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  questionModal: {
+    // position: 'absolute',
+    // top: 40,
+    // right: 90,
+    width: 300,
+    height: 200,
+    borderWidth: 2,
+    borderColor: 'white',
+    borderRadius: 3,
+    backgroundColor: 'cornflowerblue'
   }
 });

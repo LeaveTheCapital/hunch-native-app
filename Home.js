@@ -22,7 +22,7 @@ const userAreaStyle = {
 export default class Home extends Component {
   state = {
     nextEvent: null,
-    lobby: false
+    lobby: true
   };
 
   componentDidMount() {
@@ -36,37 +36,6 @@ export default class Home extends Component {
         });
       })
       .catch(console.log);
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    const {lobby} = this.state;
-    if (lobby) {
-      const currentQRef = firestore
-      .collection("Current_Questions")
-      .where("live", "==", "true");
-    currentQRef.onSnapshot(snap => {
-      // console.log("snap", snap);
-      if (snap.docs.length) {
-        const data = snap.docs[0].data();
-        console.log("data", data);
-        let answers;
-        if (data.ans === 3) {
-          answers = [data.ans_a, data.ans_b, data.ans_c];
-        } else if (data.ans === 2) {
-          answers = [data.ans_a, data.ans_b];
-        }
-        this.setState({
-          currentQ: {
-            question: data.question,
-            answers,
-            last_for: data.last_for
-          }
-        });
-      } else {
-        this.setState({ currentQ: null });
-      }
-    });
-    }
   }
 
   handleBuyInPress = () => {
