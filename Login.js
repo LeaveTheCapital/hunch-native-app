@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-import { View, StyleSheet, Button } from "react-native";
+import { View, StyleSheet, Button, Keyboard } from "react-native";
 import { authDB, auth, db } from "./firebase";
 import axios from "axios";
+import { styles } from "./StyleSheet.js";
 
 import t from "tcomb-form-native"; // 0.6.9
 
@@ -18,14 +19,15 @@ const formStyles = {
   ...Form.stylesheet,
   formGroup: {
     normal: {
-      marginBottom: 10
+      marginBottom: 10,
+      width: 300
     }
   },
   controlLabel: {
     normal: {
       color: "mediumvioletred",
       fontSize: 18,
-      marginBottom: 7,
+      marginBottom: 4,
       fontWeight: "600"
     },
     // the style applied when a validation error occours
@@ -54,6 +56,37 @@ const options = {
 };
 
 export default class Login extends Component {
+  state = {
+    keyboardVisible: false
+  };
+  componentDidMount() {
+    this.keyboardDidShowListener = Keyboard.addListener(
+      "keyboardDidShow",
+      this._keyboardDidShow
+    );
+    this.keyboardDidHideListener = Keyboard.addListener(
+      "keyboardDidHide",
+      this._keyboardDidHide
+    );
+  }
+
+  componentWillUnmount() {
+    this.keyboardDidShowListener.remove();
+    this.keyboardDidHideListener.remove();
+  }
+
+  _keyboardDidShow = () => {
+    const { makeHunchSmallerOrBigger } = this.props;
+    makeHunchSmallerOrBigger();
+    this.setState({ keyboardVisible: true });
+  };
+
+  _keyboardDidHide = () => {
+    const { makeHunchSmallerOrBigger } = this.props;
+    makeHunchSmallerOrBigger();
+    this.setState({ keyboardVisible: false });
+  };
+
   handleSubmit = () => {
     const { loginLocally } = this.props;
     const { username, email, password } = this._form.getValue();
@@ -82,32 +115,22 @@ export default class Login extends Component {
   };
 
   render() {
+    const { keyboardVisible } = this.state;
     return (
-      <View style={styles.container}>
+      <View
+        style={
+          !keyboardVisible
+            ? styles.formContainer
+            : [styles.formContainer, { marginTop: 0 }]
+        }
+      >
         <Form ref={c => (this._form = c)} type={User} options={options} />
         <Button
           title="Login / Sign Up"
           onPress={this.handleSubmit}
-          style={styles.button}
+          style={styles.submitButton}
         />
       </View>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    marginTop: 0,
-    marginLeft: 30,
-    marginRight: 30,
-    padding: 2,
-    backgroundColor: "hotpink"
-  },
-  button: {
-    backgroundColor: "cornflowerblue",
-    borderColor: "orange",
-    borderWidth: 7
-  }
-});

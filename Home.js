@@ -3,7 +3,7 @@ import { View, Text, Animated, TouchableNativeFeedback } from "react-native";
 import { db, firestore } from "./firebase";
 import Hunch from "./Hunch.js";
 import Event from "./Event.js";
-import Lobby from './Lobby.js';
+import Lobby from "./Lobby.js";
 import Tickets from "./Tickets.js";
 import { styles } from "./StyleSheet.js";
 
@@ -22,7 +22,8 @@ const userAreaStyle = {
 export default class Home extends Component {
   state = {
     nextEvent: null,
-    lobby: true
+    lobby: false,
+    colour: "hotpink"
   };
 
   componentDidMount() {
@@ -56,11 +57,18 @@ export default class Home extends Component {
   };
 
   enterLobby = () => {
-    this.setState({lobby: true})
-  }
+    this.setState({ lobby: true });
+  };
+
+  changeColour = () => {
+    this.setState({
+      colour: `rgb(${Math.random() * 255}, ${Math.random() *
+        255}, ${Math.random() * 255})`
+    });
+  };
 
   render() {
-    const { nextEvent, lobby } = this.state;
+    const { nextEvent, lobby, colour } = this.state;
     const {
       hunchSwellSmall,
       hunchHeight,
@@ -69,7 +77,7 @@ export default class Home extends Component {
       openDrawer
     } = this.props;
     return (
-      <View style={styles.loginContainer}>
+      <View style={[styles.loginContainer, { backgroundColor: colour }]}>
         <TouchableNativeFeedback onPress={openDrawer}>
           <View>
             <A.Hunch
@@ -83,7 +91,8 @@ export default class Home extends Component {
           </View>
         </TouchableNativeFeedback>
         <Tickets tickets={user.tickets} />
-        {!lobby ? <View style={styles.userArea}>
+        {!lobby ? (
+          <View style={styles.userArea}>
             <Animated.Text style={userAreaStyle}>
               {`${user.username}\n WHAT'S ${"\n"} YOUR ${"\n "}`}
               HUNCH?
@@ -94,11 +103,15 @@ export default class Home extends Component {
               handleBuyInPress={this.handleBuyInPress}
               enterLobby={this.enterLobby}
             />
-            <View style={{ flex: 2 }}> 
-            
-            </View>
-          </View> : <Lobby />
-        }
+            <View style={{ flex: 2 }} />
+          </View>
+        ) : (
+          <Lobby
+            nextEvent={nextEvent}
+            user={user}
+            changeColour={this.changeColour}
+          />
+        )}
       </View>
     );
   }

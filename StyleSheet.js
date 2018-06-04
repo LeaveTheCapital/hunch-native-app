@@ -79,9 +79,9 @@ export const styles = StyleSheet.create({
   },
   questionModalOuter: {
     flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center'
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center"
   },
   questionModal: {
     // position: 'absolute',
@@ -90,23 +90,42 @@ export const styles = StyleSheet.create({
     width: 300,
     height: 230,
     borderWidth: 2,
-    borderColor: 'white',
+    borderColor: "white",
     borderRadius: 3,
-    backgroundColor: 'cornflowerblue'
+    backgroundColor: "cornflowerblue"
   },
   questionTitle: {
     fontSize: 25,
-    fontStyle: 'italic',
+    fontStyle: "italic",
     padding: 5
   },
   answerText: {
     fontSize: 15,
-    color: 'mediumvioletred',
+    color: "mediumvioletred",
     padding: 10,
     marginTop: 2.5,
     marginRight: 5,
     marginLeft: 5,
-    backgroundColor: 'white',
+    backgroundColor: "white",
     borderRadius: 3
+  },
+  form: {
+    flex: 1,
+    borderWidth: 2,
+    borderColor: "white"
+  },
+  formContainer: {
+    flex: 1,
+    justifyContent: "flex-start",
+    marginTop: 40,
+    marginLeft: 30,
+    marginRight: 30,
+    padding: 2,
+    backgroundColor: "hotpink"
+  },
+  submitButton: {
+    backgroundColor: "cornflowerblue",
+    borderColor: "orange",
+    borderWidth: 7
   }
 });
