@@ -3,7 +3,8 @@ import {
   addUserUrl,
   getUserInfoUrl,
   getNextEventUrl,
-  changeUsersTicketsUrl
+  changeUsersTicketsUrl,
+  addUserAnswerUrl
 } from "../config";
 
 export const addUser = user => {
@@ -24,4 +25,14 @@ export const getNextEvent = () => {
 
 export const changeUsersTickets = (uid, ticketChange) => {
   return axios.post(changeUsersTicketsUrl, { uid, ticketChange });
+};
+
+export const addUserAnswer = (event_id, uid, question, answer) => {
+  const answerObj = {
+    event_id,
+    uid,
+    question,
+    answer
+  };
+  return axios.post(addUserAnswerUrl, answerObj);
 };

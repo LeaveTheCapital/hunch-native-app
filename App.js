@@ -1,5 +1,12 @@
 import React from "react";
-import { StyleSheet, Text, View, Animated, Easing, YellowBox } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Animated,
+  Easing,
+  YellowBox
+} from "react-native";
 import Svg, { Circle, Line, Path } from "react-native-svg";
 import { authDB, auth, db } from "./firebase";
 import axios from "axios";
@@ -10,7 +17,7 @@ import Home from "./Home.js";
 import ControlPanel from "./ControlPanel.js";
 import { styles } from "./StyleSheet.js";
 
-YellowBox.ignoreWarnings(['Setting'])
+// YellowBox.ignoreWarnings(["Setting"]);
 
 const A = {
   Line: Animated.createAnimatedComponent(Line),
@@ -32,6 +39,7 @@ export default class App extends React.Component {
     auth.onAuthStateChanged(user => {
       console.log("authstatechange", user);
       if (user) {
+        console.log("hello", user.uid);
         Promise.all([user.uid, db.getUserInfo(user.uid)])
           .then(([uid, userDoc]) => {
             console.log("logginLocally", userDoc.data);
@@ -59,6 +67,14 @@ export default class App extends React.Component {
     }).start();
   };
 
+  makeHunchSmallerOrBigger = () => {
+    const { hunchHeight } = this.state;
+    const newHunchHeight = hunchHeight >= 100 ? 50 : 100;
+    this.setState({
+      hunchHeight: newHunchHeight
+    });
+  };
+
   closeDrawer = () => {
     this._drawer.close();
   };
@@ -78,6 +94,7 @@ export default class App extends React.Component {
   };
 
   signOut = () => {
+    this.makeHunchSmallerOrBigger();
     authDB.doSignOut();
   };
 
@@ -120,14 +137,17 @@ export default class App extends React.Component {
       return (
         <View style={styles.loginContainer}>
           <A.Hunch
-            height={hunchSwell}
-            svgHeight="165"
+            height={hunchHeight >= 100 ? hunchSwell : hunchHeight}
+            svgHeight={hunchHeight >= 100 ? "165" : "110"}
             svgWidth="400"
             initialCoordinates={initialCoordinates}
             distance={70}
           />
           <View style={styles.userArea}>
-            <Login loginLocally={this.loginLocally} />
+            <Login
+              loginLocally={this.loginLocally}
+              makeHunchSmallerOrBigger={this.makeHunchSmallerOrBigger}
+            />
           </View>
         </View>
       );
@@ -150,7 +170,6 @@ export default class App extends React.Component {
           ref={ref => (this._drawer = ref)}
         >
           <Home
-            styles={styles}
             hunchSwellSmall={hunchSwellSmall}
             hunchHeight={hunchHeight}
             smallCoordinates={smallCoordinates}
