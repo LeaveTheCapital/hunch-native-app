@@ -127,5 +127,14 @@ export const styles = StyleSheet.create({
     backgroundColor: "cornflowerblue",
     borderColor: "orange",
     borderWidth: 7
+  },
+  lobbyContainer: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  lobbyView: {
+    flex: 1
   }
 });
