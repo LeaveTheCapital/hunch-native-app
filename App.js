@@ -17,7 +17,7 @@ import Home from "./Home.js";
 import ControlPanel from "./ControlPanel.js";
 import { styles } from "./StyleSheet.js";
 
-// YellowBox.ignoreWarnings(["Setting"]);
+YellowBox.ignoreWarnings(["Setting"]);
 
 const A = {
   Line: Animated.createAnimatedComponent(Line),
@@ -192,18 +192,3 @@ const drawerStyles = {
   },
   main: { paddingLeft: 3 }
 };
-
-// const styles = StyleSheet.create({
-//   loginContainer: {
-//     flex: 1,
-//     backgroundColor: "#ff69b4",
-//     alignItems: "center",
-//     justifyContent: "flex-start"
-//   },
-//   userArea: {
-//     flex: 1
-//     // flexDirection: "column",
-//     // justifyContent: "flex-start",
-//     // alignItems: "center"
-//   }
-// });

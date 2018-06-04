@@ -134,8 +134,8 @@ export default class Lobby extends Component {
     console.log("rendering Lobby.... questions...", questions);
     const { nextEvent, changeColour } = this.props;
     return (
-      <View>
-        <View>
+      <View style={styles.lobbyContainer}>
+        <View style={styles.lobbyView}>
           <Text>Lobby</Text>
           {currentQ ? (
             <Question
@@ -147,7 +147,7 @@ export default class Lobby extends Component {
             <Text>'no questions yet'</Text>
           )}
         </View>
-        <View>
+        <View style={styles.lobbyView}>
           <Svg height="200" width="400">
             {nextEvent &&
               Array.from({ length: nextEvent.questions }, () => "q").map(
@@ -164,6 +164,7 @@ export default class Lobby extends Component {
                   }
                   return (
                     <Circle
+                      key={i}
                       cx={`${40 + i * 65}`}
                       cy="100"
                       r={`${25}`}
@@ -176,7 +177,7 @@ export default class Lobby extends Component {
               )}
           </Svg>
         </View>
-        <View>
+        <View style={styles.lobbyView}>
           <Animated.Image
             style={{ width: brainHeight, height: brainHeight }}
             source={{
@@ -185,7 +186,7 @@ export default class Lobby extends Component {
             }}
           />
         </View>
-        <View>
+        <View style={styles.lobbyView}>
           <A.SvgImage
             style={{
               width: brainHeight,
@@ -196,7 +197,7 @@ export default class Lobby extends Component {
           />
         </View>
         <TouchableHighlight onPress={changeColour}>
-          <View style={{ marginTop: 10, backgroundColor: "steelblue" }}>
+          <View style={[{ marginTop: 10, backgroundColor: "yellow" }, styles.lobbyView]}>
             <Text style={{ fontSize: 30 }}>Press Me to change colour</Text>
           </View>
         </TouchableHighlight>
