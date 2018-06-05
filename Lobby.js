@@ -32,7 +32,7 @@ export default class Lobby extends Component {
 
     const currentQRef = firestore
       .collection("Current_Questions")
-      .where("live", "==", "true");
+      .where("live", "==", true);
     currentQRef.onSnapshot(snap => {
       const { currentQ, questions } = this.state;
       // console.log("snap", snap);
@@ -52,7 +52,7 @@ export default class Lobby extends Component {
           newQuestions[questionNumber].answers = answers;
         }
         if (currentQ) {
-          if (data.question !== currentQ.question)
+          if (data.question !== currentQ.question) {
             this.setState({
               currentQ: {
                 question: data.question,
@@ -63,6 +63,7 @@ export default class Lobby extends Component {
               },
               questions: newQuestions
             });
+          }
         } else {
           this.setState({
             currentQ: {
@@ -90,12 +91,25 @@ export default class Lobby extends Component {
         const newQuestions = questions ? { ...this.state.questions } : {};
         snap.docs.forEach((doc, i) => {
           const data = doc.data();
+          const aAnswerers = data.ans_a.length;
+          const bAnswerers = data.ans_b.length;
+          let cAnswerers;
+          if (data.ans_c.length) {
+            cAnswerers = data.ans_c.length;
+          }
           console.log("newQuestions", newQuestions);
-          newQuestions[doc.id] = {};
+          newQuestions[doc.id] = questions
+            ? questions.hasOwnProperty(doc.id)
+              ? { ...questions[doc.id] }
+              : {}
+            : {};
           newQuestions[doc.id].fulfilled = data[data.correct].includes(
             user.uid
           );
-          console.log("hiya", newQuestions);
+          newQuestions.aAnswerers = aAnswerers;
+          newQuestions.bAnswerers = bAnswerers;
+          cAnswerers ? (newQuestions.cAnswerers = cAnswerers) : null;
+          console.log("fulfilled questions update:", newQuestions);
         });
         this.setState({ questions: newQuestions });
       } else {
@@ -143,6 +157,9 @@ export default class Lobby extends Component {
       <View style={styles.lobbyContainer}>
         <View style={styles.lobbyView}>
           <Text style={styles.lobbyTitle}>{nextEvent.name}</Text>
+          {!questions && (
+            <Text>No questions yet... Event starts {timeUntilEvent}</Text>
+          )}
           {currentQ ? (
             <Question
               currentQ={currentQ}
@@ -150,7 +167,7 @@ export default class Lobby extends Component {
               sendAnswer={this.sendAnswer}
             />
           ) : (
-            <Text>No questions yet... Event starts {timeUntilEvent}</Text>
+            <Text />
           )}
         </View>
         <View style={styles.lobbyView}>
