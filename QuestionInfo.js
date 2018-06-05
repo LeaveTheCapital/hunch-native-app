@@ -16,7 +16,7 @@ export default class QuestionInfo extends Component {
         visible={modalVisible}
         transparent={true}
         onRequestClose={() => {
-          this.setState({ modalVisible: false });
+          this.setState({ modalVisible: false }, () => closeInfo());
         }}
       >
         <View style={styles.questionModalOuter}>
@@ -26,7 +26,7 @@ export default class QuestionInfo extends Component {
             <Text style={styles.answerText}>{`${question.answers[1]}`}</Text>
             <Text style={styles.answerText}>{`People who answered A: ${
               question.aAnswerers
-            } people who answered B: ${question.bAnswerers}`}</Text>
+              } people who answered B: ${question.bAnswerers}`}</Text>
             {/* {currentQ.answers_num == 3 && (
               <Text style={styles.answerText}>{`${question.answers[2]}`}</Text>
             )} */}
