@@ -4,7 +4,8 @@ import {
   View,
   Text,
   Image,
-  TouchableNativeFeedback
+  TouchableNativeFeedback,
+  Dimensions
 } from "react-native";
 import moment from "moment";
 import Button from "./Button";
@@ -14,9 +15,10 @@ export default class Event extends Component {
   handleEnterLobbyPress = () => {
     const { enterLobby } = this.props;
     enterLobby();
-  }
+  };
   render() {
     const { nextEvent, user, handleBuyInPress } = this.props;
+    const { height, width } = Dimensions.get("screen");
     let disabled = false;
     if (user.tickets === 0) {
       disabled = true;
@@ -43,8 +45,10 @@ export default class Event extends Component {
           <Text style={styles.text}>{eventDate}</Text>
           <Text style={styles.text}>{eventTime}</Text>
           <Image
-            style={styles.eventImage}
-            source={{ uri: `${nextEvent.img}` }}
+            style={{ width: width * 0.4, height: height * 0.2 }}
+            source={{
+              uri: `${nextEvent.img}`
+            }}
           />
           {!nextEvent.boughtIn ? (
             <Button
@@ -57,7 +61,11 @@ export default class Event extends Component {
           ) : !lobbyOpen ? (
             <Text>Event starts in... {timeUntilEvent};</Text>
           ) : (
-            <Button text="Enter Lobby" style={styles.buyInButton} onPress={this.handleEnterLobbyPress} />
+            <Button
+              text="Enter Lobby"
+              style={styles.buyInButton}
+              onPress={this.handleEnterLobbyPress}
+            />
           )}
         </View>
       );
