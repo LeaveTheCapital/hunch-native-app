@@ -31,7 +31,7 @@ export default class App extends React.Component {
     textAnim: new Animated.Value(0),
     pinkAnim: new Animated.Value(0),
     user: null,
-    hunchHeight: 60,
+    hunchHeight: 30,
     initialCoordinates: "10, 40"
   };
 
@@ -69,7 +69,7 @@ export default class App extends React.Component {
 
   makeHunchSmallerOrBigger = () => {
     const { hunchHeight } = this.state;
-    const newHunchHeight = hunchHeight >= 100 ? 50 : 100;
+    const newHunchHeight = hunchHeight >= 30 ? 30 : 30;
     this.setState({
       hunchHeight: newHunchHeight
     });
@@ -137,7 +137,7 @@ export default class App extends React.Component {
         <View style={styles.loginContainer}>
           <A.Hunch
             height={hunchHeight >= 100 ? hunchSwell : hunchHeight}
-            svgHeight={hunchHeight >= 100 ? "165" : "110"}
+            svgHeight={hunchHeight >= 100 ? "165" : "90"}
             svgWidth="400"
             initialCoordinates={initialCoordinates}
             distance={70}
