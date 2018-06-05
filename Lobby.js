@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+<<<<<<< HEAD
 import {
   View,
   Text,
@@ -6,6 +7,9 @@ import {
   Modal,
   TouchableNativeFeedback
 } from "react-native";
+=======
+import { View, Text, Animated, Modal, TouchableHighlight } from "react-native";
+>>>>>>> f926441a2e73709e0f7ccdc26b8460eab6aec6e4
 import Svg, { Circle } from "react-native-svg";
 import SvgImage from "react-native-remote-svg";
 import { db, firestore } from "./firebase";
@@ -157,7 +161,10 @@ export default class Lobby extends Component {
               Array.from({ length: nextEvent.questions }, () => "q").map(
                 (ele, i) => {
                   let colour = "grey";
+<<<<<<< HEAD
                   let fillColour = "darkgrey";
+=======
+>>>>>>> f926441a2e73709e0f7ccdc26b8460eab6aec6e4
                   if (questions) {
                     if (questions.hasOwnProperty(String(i + 1))) {
                       if (questions[i + 1].fulfilled) {
@@ -171,7 +178,11 @@ export default class Lobby extends Component {
                     <Circle
                       key={i}
                       cx={`${40 + i * 65}`}
+<<<<<<< HEAD
                       cy="78"
+=======
+                      cy="70"
+>>>>>>> f926441a2e73709e0f7ccdc26b8460eab6aec6e4
                       r={`${25}`}
                       stroke={colour}
                       strokeWidth="3"
@@ -207,10 +218,14 @@ export default class Lobby extends Component {
               {
                 marginTop: 10,
                 backgroundColor: "yellow",
+<<<<<<< HEAD
                 width: 200,
                 borderRadius: 5,
                 borderWidth: 15,
                 borderColor: "white"
+=======
+                width: 200
+>>>>>>> f926441a2e73709e0f7ccdc26b8460eab6aec6e4
               }
             ]}
           >

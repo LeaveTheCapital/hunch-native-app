@@ -129,8 +129,12 @@ export const styles = StyleSheet.create({
   formContainer: {
     flex: 1,
     justifyContent: "flex-start",
+<<<<<<< HEAD
     marginTop: 0,
     // was 40
+=======
+    marginTop: 40,
+>>>>>>> f926441a2e73709e0f7ccdc26b8460eab6aec6e4
     marginLeft: 30,
     marginRight: 30,
     padding: 2,
@@ -141,5 +145,11 @@ export const styles = StyleSheet.create({
     borderColor: "orange",
     borderWidth: 7
   },
+<<<<<<< HEAD
   lobbyView: {}
+=======
+  lobbyView: {
+    borderWidth: 2
+  }
+>>>>>>> f926441a2e73709e0f7ccdc26b8460eab6aec6e4
 });

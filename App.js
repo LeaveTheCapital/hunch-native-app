@@ -31,7 +31,11 @@ export default class App extends React.Component {
     textAnim: new Animated.Value(0),
     pinkAnim: new Animated.Value(0),
     user: null,
+<<<<<<< HEAD
     hunchHeight: 60,
+=======
+    hunchHeight: 100,
+>>>>>>> f926441a2e73709e0f7ccdc26b8460eab6aec6e4
     initialCoordinates: "10, 40"
   };
 
@@ -69,7 +73,11 @@ export default class App extends React.Component {
 
   makeHunchSmallerOrBigger = () => {
     const { hunchHeight } = this.state;
+<<<<<<< HEAD
     const newHunchHeight = hunchHeight >= 100 ? 50 : 60;
+=======
+    const newHunchHeight = hunchHeight >= 100 ? 50 : 100;
+>>>>>>> f926441a2e73709e0f7ccdc26b8460eab6aec6e4
     this.setState({
       hunchHeight: newHunchHeight
     });
@@ -100,7 +108,12 @@ export default class App extends React.Component {
 
   changeUserTickets = () => {
     const { user } = this.state;
+<<<<<<< HEAD
     db.getUserInfo(user.uid)
+=======
+    db
+      .getUserInfo(user.uid)
+>>>>>>> f926441a2e73709e0f7ccdc26b8460eab6aec6e4
       .then(userDoc => {
         const newTickets = userDoc.data.tickets;
         console.log("new tickets", newTickets);
