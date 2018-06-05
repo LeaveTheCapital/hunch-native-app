@@ -18,7 +18,7 @@ import Home from "./Home.js";
 import ControlPanel from "./ControlPanel.js";
 import { styles } from "./StyleSheet.js";
 
-// YellowBox.ignoreWarnings(["Setting"]);
+YellowBox.ignoreWarnings(["Setting"]);
 
 const A = {
   Line: Animated.createAnimatedComponent(Line),
@@ -147,7 +147,6 @@ export default class App extends React.Component {
           />
           <View style={styles.userArea}>
             <Login
-              loginLocally={this.loginLocally}
               makeHunchSmallerOrBigger={this.makeHunchSmallerOrBigger}
             />
           </View>
@@ -162,6 +161,7 @@ export default class App extends React.Component {
               closeDrawer={this.closeDrawer}
               signOut={this.signOut}
               user={user}
+              changeUserTickets={this.changeUserTickets}
             />
           }
           openDrawerOffset={290}

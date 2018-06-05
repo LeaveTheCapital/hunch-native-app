@@ -60,8 +60,8 @@ export default class Home extends Component {
 
   changeColour = () => {
     this.setState({
-      colour: `rgb(${Math.random() * 255}, ${Math.random() *
-        255}, ${Math.random() * 255})`
+      colour: `rgb(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() *
+        255)}, ${Math.floor(Math.random() * 255)})`
     });
   };
 
@@ -108,6 +108,7 @@ export default class Home extends Component {
             nextEvent={nextEvent}
             user={user}
             changeColour={this.changeColour}
+            colour={colour}
           />
         )}
       </View>

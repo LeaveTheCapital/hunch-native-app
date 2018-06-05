@@ -12,7 +12,7 @@ export default class QuestionInfo extends Component {
     const { question, closeInfo } = this.props;
     return (
       <Modal
-        animationType="slide"
+        animationType="fade"
         visible={modalVisible}
         transparent={true}
         onRequestClose={() => {

@@ -7,7 +7,7 @@ import {
   TouchableNativeFeedback,
   TouchableWithoutFeedback
 } from "react-native";
-import Svg, { Circle } from "react-native-svg";
+import Svg, { Circle, Text as SvgText } from "react-native-svg";
 import SvgImage from "react-native-remote-svg";
 import { db, firestore } from "./firebase";
 import moment from "moment";
@@ -168,7 +168,7 @@ export default class Lobby extends Component {
     let { brainHeight } = this.state;
     const { currentQ, questions, infoQuestion } = this.state;
     console.log("rendering Lobby.... questions...", questions);
-    const { nextEvent, changeColour } = this.props;
+    const { nextEvent, changeColour, colour } = this.props;
     const timeUntilEvent = moment(nextEvent.date).fromNow();
     return (
       <View style={styles.lobbyContainer}>
@@ -228,6 +228,16 @@ export default class Lobby extends Component {
                         fill={colour}
                       />
                     </TouchableWithoutFeedback>
+                  );
+                }
+              )}
+              {nextEvent &&
+              Array.from({ length: nextEvent.questions }, () => "q").map(
+                (ele, i) => {
+                  return (
+                      <SvgText key={i} fill={colour} stroke={colour}fontSize='20' fontWeight="bold" x={`${35 + i * 65}`} y='83' textAnchor='middle'>
+                        Q{`${i+1}`}
+                      </SvgText>
                   );
                 }
               )}

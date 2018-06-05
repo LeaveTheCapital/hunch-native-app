@@ -7,10 +7,12 @@ import Button from "./Button";
 
 export default class ControlPanel extends Component {
   handlePressButtonAsync = async () => {
-    const userId = this.props.user.uid;
+    const {user, changeUserTickets, closeDrawer}  = this.props;
     let result = await WebBrowser.openBrowserAsync(
-      `https://hunch-paypal-api.herokuapp.com/pay/${userId}?amount=10`
+      `https://hunch-paypal-api.herokuapp.com/pay/${user.uid}?amount=10`
     );
+    changeUserTickets();
+    closeDrawer();
   };
 
   render() {
