@@ -27,8 +27,7 @@ export default class Home extends Component {
   };
 
   componentDidMount() {
-    db
-      .getNextEvent()
+    db.getNextEvent()
       .then(event => {
         const newNextEvent = { ...event.data.data };
         newNextEvent.id = event.data.id;
@@ -46,8 +45,7 @@ export default class Home extends Component {
     const uid = this.props.user.uid;
     // console.log("uid", uid, "user", user);
     newNextEvent.boughtIn = true;
-    db
-      .changeUsersTickets(uid, -1)
+    db.changeUsersTickets(uid, -1)
       .then(res => {
         console.log(res.data.tickets);
         this.setState({ nextEvent: newNextEvent });
@@ -77,7 +75,7 @@ export default class Home extends Component {
       openDrawer
     } = this.props;
     return (
-      <View style={[styles.loginContainer, { backgroundColor: colour }]}>
+      <View style={[styles.homeContainer, { backgroundColor: colour }]}>
         <TouchableNativeFeedback onPress={openDrawer}>
           <View>
             <A.Hunch

@@ -7,6 +7,18 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "flex-start"
   },
+  homeContainer: {
+    flex: 1,
+    flexDirection: "column",
+    justifyContent: "flex-start",
+    alignItems: "center"
+  },
+  lobbyContainer: {
+    flex: 1,
+    flexDirection: "column",
+    justifyContent: "flex-start",
+    alignItems: "center"
+  },
   userArea: {
     flex: 1
     // flexDirection: "column",
@@ -128,13 +140,7 @@ export const styles = StyleSheet.create({
     borderColor: "orange",
     borderWidth: 7
   },
-  lobbyContainer: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
   lobbyView: {
-    flex: 1
+    borderWidth: 2
   }
 });
