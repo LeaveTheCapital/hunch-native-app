@@ -84,8 +84,7 @@ export default class Lobby extends Component {
         snap.docs.forEach((doc, i) => {
           const data = doc.data();
           console.log("newQuestions", newQuestions);
-          // newQuestions[doc.id] = {};
-          // fulfilled[doc.id] = data[data.correct].includes(user.uid);
+          newQuestions[doc.id] = {};
           newQuestions[doc.id].fulfilled = data[data.correct].includes(
             user.uid
           );
@@ -117,13 +116,12 @@ export default class Lobby extends Component {
       currentQ.questionNumber,
       currentQ.userAnswer
     );
-    db
-      .addUserAnswer(
-        nextEvent.id,
-        user.uid,
-        currentQ.questionNumber,
-        currentQ.userAnswer
-      )
+    db.addUserAnswer(
+      nextEvent.id,
+      user.uid,
+      currentQ.questionNumber,
+      currentQ.userAnswer
+    )
       .then(console.log)
       .catch(console.log);
   };
@@ -148,7 +146,7 @@ export default class Lobby extends Component {
           )}
         </View>
         <View style={styles.lobbyView}>
-          <Svg height="200" width="400">
+          <Svg height="150" width="400">
             {nextEvent &&
               Array.from({ length: nextEvent.questions }, () => "q").map(
                 (ele, i) => {
@@ -166,7 +164,7 @@ export default class Lobby extends Component {
                     <Circle
                       key={i}
                       cx={`${40 + i * 65}`}
-                      cy="100"
+                      cy="70"
                       r={`${25}`}
                       stroke={colour}
                       strokeWidth="3"
@@ -197,7 +195,15 @@ export default class Lobby extends Component {
           />
         </View>
         <TouchableHighlight onPress={changeColour}>
-          <View style={[{ marginTop: 10, backgroundColor: "yellow" }, styles.lobbyView]}>
+          <View
+            style={[
+              {
+                marginTop: 10,
+                backgroundColor: "yellow",
+                width: 200
+              }
+            ]}
+          >
             <Text style={{ fontSize: 30 }}>Press Me to change colour</Text>
           </View>
         </TouchableHighlight>
