@@ -5,6 +5,7 @@ import {
   View,
   Animated,
   Easing,
+  Dimensions,
   YellowBox
 } from "react-native";
 import Svg, { Circle, Line, Path } from "react-native-svg";
@@ -115,6 +116,8 @@ export default class App extends React.Component {
 
   render() {
     let { textAnim, pinkAnim, user, hunchHeight } = this.state;
+    const { height, width } = Dimensions.get("screen");
+    console.log("height", height, "width", width);
     const initialCoordinates = [30, 45];
     const smallCoordinates = [10, 40];
 
@@ -184,7 +187,7 @@ export default class App extends React.Component {
 
 const drawerStyles = {
   drawer: {
-    backgroundColor: "white",
+    backgroundColor: "lightpink",
     shadowColor: "seagreen",
     shadowOpacity: 0.8,
     shadowRadius: 3

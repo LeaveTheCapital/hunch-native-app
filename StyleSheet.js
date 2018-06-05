@@ -19,11 +19,25 @@ export const styles = StyleSheet.create({
     justifyContent: "flex-start",
     alignItems: "center"
   },
+  lobbyTitle: {
+    fontSize: 25,
+    fontStyle: "italic",
+    textAlign: "center"
+  },
   userArea: {
     flex: 1
     // flexDirection: "column",
     // justifyContent: "flex-start",
     // alignItems: "center"
+  },
+  drawerStyles: {
+    drawer: {
+      backgroundColor: "lightpink",
+      shadowColor: "seagreen",
+      shadowOpacity: 0.8,
+      shadowRadius: 30
+    },
+    main: { paddingLeft: 3 }
   },
   controlPanel: {
     marginTop: 20,

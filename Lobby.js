@@ -9,6 +9,7 @@ import {
 import Svg, { Circle } from "react-native-svg";
 import SvgImage from "react-native-remote-svg";
 import { db, firestore } from "./firebase";
+import moment from "moment";
 import Question from "./Question.js";
 import { styles } from "./StyleSheet.js";
 
@@ -137,10 +138,11 @@ export default class Lobby extends Component {
     const { currentQ, questions } = this.state;
     console.log("rendering Lobby.... questions...", questions);
     const { nextEvent, changeColour } = this.props;
+    const timeUntilEvent = moment(nextEvent.date).fromNow();
     return (
       <View style={styles.lobbyContainer}>
         <View style={styles.lobbyView}>
-          <Text>Lobby</Text>
+          <Text style={styles.lobbyTitle}>{nextEvent.name}</Text>
           {currentQ ? (
             <Question
               currentQ={currentQ}
@@ -148,7 +150,7 @@ export default class Lobby extends Component {
               sendAnswer={this.sendAnswer}
             />
           ) : (
-            <Text>'no questions yet'</Text>
+            <Text>No questions yet... Event starts {timeUntilEvent}</Text>
           )}
         </View>
         <View style={styles.lobbyView}>
@@ -157,13 +159,15 @@ export default class Lobby extends Component {
               Array.from({ length: nextEvent.questions }, () => "q").map(
                 (ele, i) => {
                   let colour = "grey";
-                  let fillColour = "darkgrey";
+                  let strokeColour = "darkgrey";
                   if (questions) {
                     if (questions.hasOwnProperty(String(i + 1))) {
                       if (questions[i + 1].fulfilled) {
                         colour = "green";
+                        strokeColour = "darkgreen";
                       } else if (questions[i + 1].fulfilled === false) {
                         colour = "red";
+                        strokeColour = "darkred";
                       }
                     }
                   }
@@ -173,7 +177,7 @@ export default class Lobby extends Component {
                       cx={`${40 + i * 65}`}
                       cy="78"
                       r={`${25}`}
-                      stroke={colour}
+                      stroke={strokeColour}
                       strokeWidth="3"
                       fill={colour}
                     />
@@ -208,13 +212,15 @@ export default class Lobby extends Component {
                 marginTop: 10,
                 backgroundColor: "yellow",
                 width: 200,
-                borderRadius: 5,
-                borderWidth: 15,
+                borderRadius: 25,
+                borderWidth: 3,
                 borderColor: "white"
               }
             ]}
           >
-            <Text style={{ fontSize: 30 }}>Press Me to change colour</Text>
+            <Text style={{ fontSize: 30, textAlign: "center", padding: 5 }}>
+              Press Me to change colour
+            </Text>
           </View>
         </TouchableNativeFeedback>
       </View>

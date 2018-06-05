@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, StyleSheet, Button, Keyboard } from "react-native";
+import { View, StyleSheet, Button, Keyboard, Dimensions } from "react-native";
 import { authDB, auth, db } from "./firebase";
 import axios from "axios";
 import { styles } from "./StyleSheet.js";
@@ -118,6 +118,7 @@ export default class Login extends Component {
 
   render() {
     const { keyboardVisible } = this.state;
+    const { height, width } = Dimensions.get("screen");
     return (
       <View
         style={
