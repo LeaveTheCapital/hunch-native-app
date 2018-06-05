@@ -4,13 +4,15 @@ import {
   Text,
   Animated,
   Modal,
-  TouchableNativeFeedback
+  TouchableNativeFeedback,
+  TouchableWithoutFeedback
 } from "react-native";
 import Svg, { Circle } from "react-native-svg";
 import SvgImage from "react-native-remote-svg";
 import { db, firestore } from "./firebase";
 import moment from "moment";
 import Question from "./Question.js";
+import QuestionInfo from "./QuestionInfo.js";
 import { styles } from "./StyleSheet.js";
 
 const A = {
@@ -21,7 +23,8 @@ export default class Lobby extends Component {
   state = {
     brainHeight: new Animated.Value(0),
     currentQ: null,
-    questions: null
+    questions: null,
+    infoQuestion: null
   };
   componentDidMount() {
     Animated.timing(this.state.brainHeight, {
@@ -94,7 +97,7 @@ export default class Lobby extends Component {
           const aAnswerers = data.ans_a.length;
           const bAnswerers = data.ans_b.length;
           let cAnswerers;
-          if (data.ans_c.length) {
+          if (data.hasOwnProperty("ans_c")) {
             cAnswerers = data.ans_c.length;
           }
           console.log("newQuestions", newQuestions);
@@ -106,9 +109,9 @@ export default class Lobby extends Component {
           newQuestions[doc.id].fulfilled = data[data.correct].includes(
             user.uid
           );
-          newQuestions.aAnswerers = aAnswerers;
-          newQuestions.bAnswerers = bAnswerers;
-          cAnswerers ? (newQuestions.cAnswerers = cAnswerers) : null;
+          newQuestions[doc.id].aAnswerers = aAnswerers;
+          newQuestions[doc.id].bAnswerers = bAnswerers;
+          cAnswerers ? newQuestions[doc.id].cAnswerers = cAnswerers : null;
           console.log("fulfilled questions update:", newQuestions);
         });
         this.setState({ questions: newQuestions });
@@ -147,9 +150,23 @@ export default class Lobby extends Component {
       .catch(console.log);
   };
 
+  handleInfoPress = questionNumber => {
+    console.log("infoPress", questionNumber);
+    this.setState({
+      infoQuestion: questionNumber
+    });
+  };
+
+  closeInfo = () => {
+    console.log("closing info..");
+    this.setState({
+      infoQuestion: null
+    });
+  };
+
   render() {
     let { brainHeight } = this.state;
-    const { currentQ, questions } = this.state;
+    const { currentQ, questions, infoQuestion } = this.state;
     console.log("rendering Lobby.... questions...", questions);
     const { nextEvent, changeColour } = this.props;
     const timeUntilEvent = moment(nextEvent.date).fromNow();
@@ -167,7 +184,13 @@ export default class Lobby extends Component {
               sendAnswer={this.sendAnswer}
             />
           ) : (
-            <Text />
+              <Text />
+            )}
+          {infoQuestion && (
+            <QuestionInfo
+              question={questions[infoQuestion]}
+              closeInfo={this.closeInfo}
+            />
           )}
         </View>
         <View style={styles.lobbyView}>
@@ -188,16 +211,23 @@ export default class Lobby extends Component {
                       }
                     }
                   }
+
                   return (
-                    <Circle
+                    <TouchableWithoutFeedback
                       key={i}
-                      cx={`${40 + i * 65}`}
-                      cy="78"
-                      r={`${25}`}
-                      stroke={strokeColour}
-                      strokeWidth="3"
-                      fill={colour}
-                    />
+                      onPress={() => this.handleInfoPress(i + 1)}
+                    // disabled={!questions[i + 1] ? true : false}
+                    >
+                      <Circle
+                        key={i * 20}
+                        cx={`${40 + i * 65}`}
+                        cy="78"
+                        r={`${25}`}
+                        stroke={strokeColour}
+                        strokeWidth="3"
+                        fill={colour}
+                      />
+                    </TouchableWithoutFeedback>
                   );
                 }
               )}

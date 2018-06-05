@@ -16,7 +16,7 @@ export const styles = StyleSheet.create({
   lobbyContainer: {
     flex: 1,
     flexDirection: "column",
-    justifyContent: "flex-start",
+    justifyContent: "space-between",
     alignItems: "center"
   },
   lobbyTitle: {
