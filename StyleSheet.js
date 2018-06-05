@@ -130,7 +130,6 @@ export const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "flex-start",
     marginTop: 0,
-    // was 40
     marginLeft: 30,
     marginRight: 30,
     padding: 2,
@@ -143,3 +142,4 @@ export const styles = StyleSheet.create({
   },
   lobbyView: {}
 });
+// formContainer marginTop was 40
