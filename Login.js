@@ -19,12 +19,8 @@ const formStyles = {
   ...Form.stylesheet,
   formGroup: {
     normal: {
-<<<<<<< HEAD
       marginBottom: 0,
       // was 10
-=======
-      marginBottom: 10,
->>>>>>> f926441a2e73709e0f7ccdc26b8460eab6aec6e4
       width: 300
     }
   },
@@ -32,12 +28,8 @@ const formStyles = {
     normal: {
       color: "mediumvioletred",
       fontSize: 18,
-<<<<<<< HEAD
       marginBottom: 0,
       // was 4
-=======
-      marginBottom: 4,
->>>>>>> f926441a2e73709e0f7ccdc26b8460eab6aec6e4
       fontWeight: "600"
     },
     // the style applied when a validation error occours
