@@ -33,7 +33,7 @@ export default class Lobby extends Component {
       toValue: 100,
       duration: 3000
     }).start();
-    const { user } = this.props;
+    const { user, nextEvent } = this.props;
 
     const currentQRef = firestore
       .collection("Current_Questions")
@@ -58,10 +58,14 @@ export default class Lobby extends Component {
         }
         if (currentQ) {
           if (data.question !== currentQ.question) {
-            Animated.timing(strokeAnim, {
-              toValue: 6,
-              duration: 6000
-            }).start(() =>
+
+            Animated.sequence([Animated.timing(strokeAnim, {
+              toValue: 35,
+              duration: 1500
+            }), Animated.timing(strokeAnim, {
+              toValue: 0,
+              duration: 100
+            })]).start(() =>
               this.setState({
                 currentQ: {
                   question: data.question,
@@ -70,15 +74,19 @@ export default class Lobby extends Component {
                   questionNumber,
                   answers_num: data.answers_num
                 },
-                questions: newQuestions
+                questions: newQuestions,
+                strokeAnim: new Animated.Value(0)
               })
             );
           }
         } else {
-          Animated.timing(strokeAnim, {
-            toValue: 6,
-            duration: 7000
-          }).start(() =>
+          Animated.sequence([Animated.timing(strokeAnim, {
+            toValue: 35,
+            duration: 1500
+          }), Animated.timing(strokeAnim, {
+            toValue: 0,
+            duration: 100
+          })]).start(() =>
             this.setState({
               currentQ: {
                 question: data.question,
@@ -87,7 +95,8 @@ export default class Lobby extends Component {
                 questionNumber,
                 answers_num: data.answers_num
               },
-              questions: newQuestions
+              questions: newQuestions,
+              strokeAnim: new Animated.Value(0)
             })
           );
         }
@@ -131,16 +140,28 @@ export default class Lobby extends Component {
       }
     });
 
-    const eventFinishRef = firestore
-      .collection("Current_Event")
-      .where("complete", "==", true);
-    eventFinishRef.onSnapshot(snap => {
-      if (snap.docs.length) {
-        console.log("Event finished!!!");
-      } else {
-        console.log("event not finished");
-      }
-    });
+    console.log('nextEvent id', nextEvent.id)
+
+    // const eventFinishRef = firestore
+    //   .collection("Current_Event")
+    //   .where("complete", "==", true);
+    // eventFinishRef.onSnapshot(snap => {
+    //   if (snap.docs.length) {
+    //     console.log("Event finished!!!");
+    //     db.getWinnersTally(nextEvent.id).then((res) => {
+    //       const { winners, topMark } = res.data;
+    //       if (winners.includes(user.uid)) {
+    //         console.log(':money_mouth_face:')
+    //       } else {
+    //         console.log(':face_with_symbols_on_mouth:')
+    //       }
+    //     }).catch((err) => {
+    //       //oops
+    //     })
+    //   } else {
+    //     console.log("event not finished");
+    //   }
+    // });
   }
 
   handleAnswerPress = ans => {
@@ -168,7 +189,7 @@ export default class Lobby extends Component {
       currentQ.questionNumber,
       currentQ.userAnswer
     )
-      .then(console.log)
+      .then(data => console.log(data.data.msg))
       .catch(console.log);
   };
 
@@ -189,8 +210,13 @@ export default class Lobby extends Component {
   render() {
     let { brainHeight, strokeAnim } = this.state;
     const { currentQ, questions, infoQuestion } = this.state;
-    console.log("rendering Lobby.... questions...", questions);
     const { nextEvent, changeColour, colour } = this.props;
+    console.log("rendering Lobby.... questions...", questions);
+
+    if (currentQ) {
+      console.log('currentQ', currentQ)
+    }
+    console.log('nextEvent', nextEvent)
     const timeUntilEvent = moment(nextEvent.date).fromNow();
     const strokeSwell = strokeAnim.interpolate({
       inputRange: [0, 3],
@@ -204,14 +230,16 @@ export default class Lobby extends Component {
             <Text>No questions yet... Event starts {timeUntilEvent}</Text>
           )}
           {currentQ ? (
-            <Question
-              currentQ={currentQ}
-              handleAnswerPress={this.handleAnswerPress}
-              sendAnswer={this.sendAnswer}
-            />
+            <View style={styles.modalContainer}>
+              <Question
+                currentQ={currentQ}
+                handleAnswerPress={this.handleAnswerPress}
+                sendAnswer={this.sendAnswer}
+              />
+            </View>
           ) : (
-            <Text />
-          )}
+              <Text />
+            )}
           {infoQuestion && (
             <QuestionInfo
               question={questions[infoQuestion]}
@@ -242,7 +270,7 @@ export default class Lobby extends Component {
                     <TouchableWithoutFeedback
                       key={i}
                       onPress={() => this.handleInfoPress(i + 1)}
-                      // disabled={!questions[i + 1] ? true : false}
+                    // disabled={!questions[i + 1] ? true : false}
                     >
                       <A.Circle
                         key={i * 20}
@@ -250,7 +278,7 @@ export default class Lobby extends Component {
                         cy="78"
                         r={`${25}`}
                         stroke={strokeColour}
-                        strokeWidth={strokeSwell || "3"}
+                        strokeWidth={strokeSwell}
                         fill={colour}
                       />
                     </TouchableWithoutFeedback>

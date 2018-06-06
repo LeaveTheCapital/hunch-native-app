@@ -12,7 +12,7 @@ export default class Question extends Component {
     const { sendAnswer } = this.props;
     Animated.timing(this.state.brainHeight, {
       toValue: 0,
-      duration: 5000
+      duration: 10000
     }).start(() => {
       sendAnswer();
       this.setState({ modalVisible: false });
@@ -43,18 +43,18 @@ export default class Question extends Component {
               <TouchableHighlight onPress={() => handleAnswerPress("ans_c")}>
                 <Text style={styles.answerText}>{`${
                   currentQ.answers[2]
-                }`}</Text>
+                  }`}</Text>
               </TouchableHighlight>
             )}
-            <View>
-              <Animated.Image
-                style={{ width: 100, height: brainHeight }}
-                source={{
-                  uri:
-                    "http://pluspng.com/img-png/brain-png-red-brain-image-2540-2400.png"
-                }}
-              />
-            </View>
+          </View>
+          <View style={styles.questionBrainView}>
+            <Animated.Image
+              style={{ width: 100, height: brainHeight }}
+              source={{
+                uri:
+                  "http://pluspng.com/img-png/brain-png-red-brain-image-2540-2400.png"
+              }}
+            />
           </View>
         </View>
       </Modal>

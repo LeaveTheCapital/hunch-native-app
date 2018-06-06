@@ -94,22 +94,39 @@ export const styles = StyleSheet.create({
     padding: 2,
     opacity: 0.5
   },
-  questionModalOuter: {
+  modalContainer: {
     flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  questionModalOuter: {
+
     flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center"
+    justifyContent: "space-around",
+    alignItems: "center",
+    borderWidth: 2,
+    borderColor: "white",
+    borderRadius: 3,
+    backgroundColor: "cornflowerblue",
+    width: 300,
+    height: 360
   },
   questionModal: {
     // position: 'absolute',
     // top: 40,
     // right: 90,
-    width: 300,
-    height: 230,
+
     borderWidth: 2,
-    borderColor: "white",
+    borderColor: "orange",
+    borderRadius: 3
+  },
+  questionBrainView: {
+    borderWidth: 2,
+    borderColor: "red",
     borderRadius: 3,
-    backgroundColor: "cornflowerblue"
+    // height: 200,
+    // width: 100
   },
   questionInfoModalOuter: {
     flex: 1,
