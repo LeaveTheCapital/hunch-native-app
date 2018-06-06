@@ -74,6 +74,7 @@ export default class Home extends Component {
       user,
       openDrawer
     } = this.props;
+    console.log('new colour', colour)
     return (
       <View style={[styles.homeContainer, { backgroundColor: colour }]}>
         <TouchableNativeFeedback onPress={openDrawer}>
@@ -104,13 +105,13 @@ export default class Home extends Component {
             <View style={{ flex: 2 }} />
           </View>
         ) : (
-          <Lobby
-            nextEvent={nextEvent}
-            user={user}
-            changeColour={this.changeColour}
-            colour={colour}
-          />
-        )}
+            <Lobby
+              nextEvent={nextEvent}
+              user={user}
+              changeColour={this.changeColour}
+              colour={colour}
+            />
+          )}
       </View>
     );
   }

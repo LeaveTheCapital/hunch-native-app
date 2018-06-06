@@ -19,16 +19,17 @@ export default class QuestionInfo extends Component {
           this.setState({ modalVisible: false }, () => closeInfo());
         }}
       >
-        <View style={styles.questionModalOuter}>
-          <View style={styles.questionModal}>
+        <View style={styles.questionInfoModalOuter}>
+          <View style={styles.questionInfoModal}>
             <Text style={{ fontSize: 25 }}>{`${question.question}`}</Text>
-            <Text style={styles.answerText}>{`${question.answers[0]}`}</Text>
-            <Text style={styles.answerText}>{`${question.answers[1]}`}</Text>
+            <Text style={styles.answerText}>{`A: ${question.answers[0]}`}</Text>
+            <Text style={styles.answerText}>{`B: ${question.answers[1]}`}</Text>
             <Text style={styles.answerText}>{`People who answered A: ${
               question.aAnswerers
-              } people who answered B: ${question.bAnswerers}`}</Text>
-            {/* {currentQ.answers_num == 3 && (
-              <Text style={styles.answerText}>{`${question.answers[2]}`}</Text>
+              }`}</Text>
+            <Text style={styles.answerText}>{`People who answered B: ${question.bAnswerers}`}</Text>
+            {/* {question.hasOwnProperty(cAnswerers) && (
+              <Text style={styles.answerText}>{`people who answered C: ${question.cAnswerers}`}</Text>
             )} */}
           </View>
         </View>

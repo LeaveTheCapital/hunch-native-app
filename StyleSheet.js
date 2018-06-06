@@ -111,6 +111,23 @@ export const styles = StyleSheet.create({
     borderRadius: 3,
     backgroundColor: "cornflowerblue"
   },
+  questionInfoModalOuter: {
+    flex: 1,
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  questionInfoModal: {
+    // position: 'absolute',
+    // top: 40,
+    // right: 90,
+    width: 300,
+    height: 260,
+    borderWidth: 2,
+    borderColor: "white",
+    borderRadius: 3,
+    backgroundColor: "grey"
+  },
   questionTitle: {
     fontSize: 25,
     fontStyle: "italic",

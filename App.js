@@ -155,7 +155,7 @@ export default class App extends React.Component {
     } else {
       return (
         <Drawer
-          type="displace"
+          type="overlay"
           content={
             <ControlPanel
               closeDrawer={this.closeDrawer}
@@ -164,11 +164,12 @@ export default class App extends React.Component {
               changeUserTickets={this.changeUserTickets}
             />
           }
-          openDrawerOffset={290}
-          closedDrawerOffset={-3}
+          openDrawerOffset={0.6}
+          closedDrawerOffset={-15}
           captureGestures={true}
           styles={drawerStyles}
-          tweenHandler={Drawer.tweenPresets.parallax}
+          tweenHandler={(ratio) => ({ main: { opacity: (2 - ratio) / 2 } })}
+          // tweenHandler={Drawer.tweenPresets.parallax}
           ref={ref => (this._drawer = ref)}
         >
           <Home
@@ -187,10 +188,17 @@ export default class App extends React.Component {
 
 const drawerStyles = {
   drawer: {
-    backgroundColor: "lightpink",
-    shadowColor: "seagreen",
+    paddingLeft: 2,
+    backgroundColor: "grey",
+    shadowColor: "red",
     shadowOpacity: 0.8,
-    shadowRadius: 3
+    shadowRadius: 5
   },
-  main: { paddingLeft: 3 }
+  main: {
+    backgroundColor: 'red',
+    paddingLeft: 3,
+    shadowColor: "red",
+    shadowOpacity: 0.8,
+    shadowRadius: 5
+  }
 };

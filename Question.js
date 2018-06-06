@@ -12,7 +12,7 @@ export default class Question extends Component {
     const { sendAnswer } = this.props;
     Animated.timing(this.state.brainHeight, {
       toValue: 0,
-      duration: 3000
+      duration: 5000
     }).start(() => {
       sendAnswer();
       this.setState({ modalVisible: false });
