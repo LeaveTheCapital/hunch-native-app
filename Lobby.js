@@ -16,12 +16,14 @@ import QuestionInfo from "./QuestionInfo.js";
 import { styles } from "./StyleSheet.js";
 
 const A = {
-  SvgImage: Animated.createAnimatedComponent(SvgImage)
+  SvgImage: Animated.createAnimatedComponent(SvgImage),
+  Circle: Animated.createAnimatedComponent(Circle)
 };
 
 export default class Lobby extends Component {
   state = {
     brainHeight: new Animated.Value(0),
+    strokeAnim: new Animated.Value(0),
     currentQ: null,
     questions: null,
     infoQuestion: null
@@ -37,7 +39,7 @@ export default class Lobby extends Component {
       .collection("Current_Questions")
       .where("live", "==", true);
     currentQRef.onSnapshot(snap => {
-      const { currentQ, questions } = this.state;
+      const { currentQ, questions, strokeAnim } = this.state;
       // console.log("snap", snap);
       if (snap.docs.length) {
         const data = snap.docs[0].data();
@@ -56,7 +58,10 @@ export default class Lobby extends Component {
         }
         if (currentQ) {
           if (data.question !== currentQ.question) {
-            this.setState({
+            Animated.timing(strokeAnim, {
+              toValue: 6,
+              duration: 6000
+            }).start(() => this.setState({
               currentQ: {
                 question: data.question,
                 answers,
@@ -65,10 +70,14 @@ export default class Lobby extends Component {
                 answers_num: data.answers_num
               },
               questions: newQuestions
-            });
+            }))
+
           }
         } else {
-          this.setState({
+          Animated.timing(strokeAnim, {
+            toValue: 6,
+            duration: 7000
+          }).start(() => this.setState({
             currentQ: {
               question: data.question,
               answers,
@@ -77,7 +86,7 @@ export default class Lobby extends Component {
               answers_num: data.answers_num
             },
             questions: newQuestions
-          });
+          }))
         }
       } else {
         console.log("snap length is 0");
@@ -100,7 +109,6 @@ export default class Lobby extends Component {
           if (data.hasOwnProperty("ans_c")) {
             cAnswerers = data.ans_c.length;
           }
-          console.log("newQuestions", newQuestions);
           newQuestions[doc.id] = questions
             ? questions.hasOwnProperty(doc.id)
               ? { ...questions[doc.id] }
@@ -165,11 +173,15 @@ export default class Lobby extends Component {
   };
 
   render() {
-    let { brainHeight } = this.state;
+    let { brainHeight, strokeAnim } = this.state;
     const { currentQ, questions, infoQuestion } = this.state;
     console.log("rendering Lobby.... questions...", questions);
     const { nextEvent, changeColour, colour } = this.props;
     const timeUntilEvent = moment(nextEvent.date).fromNow();
+    const strokeSwell = strokeAnim.interpolate({
+      inputRange: [0, 3],
+      outputRange: ["0", "3"]
+    });
     return (
       <View style={styles.lobbyContainer}>
         <View style={styles.lobbyView}>
@@ -218,26 +230,26 @@ export default class Lobby extends Component {
                       onPress={() => this.handleInfoPress(i + 1)}
                     // disabled={!questions[i + 1] ? true : false}
                     >
-                      <Circle
+                      <A.Circle
                         key={i * 20}
                         cx={`${40 + i * 65}`}
                         cy="78"
                         r={`${25}`}
                         stroke={strokeColour}
-                        strokeWidth="3"
+                        strokeWidth={strokeSwell || '3'}
                         fill={colour}
                       />
                     </TouchableWithoutFeedback>
                   );
                 }
               )}
-              {nextEvent &&
+            {nextEvent &&
               Array.from({ length: nextEvent.questions }, () => "q").map(
                 (ele, i) => {
                   return (
-                      <SvgText key={i} fill={colour} stroke={colour}fontSize='20' fontWeight="bold" x={`${35 + i * 65}`} y='83' textAnchor='middle'>
-                        Q{`${i+1}`}
-                      </SvgText>
+                    <SvgText key={i} fill={colour} stroke={colour} fontSize='20' fontWeight="bold" x={`${35 + i * 65}`} y='83' textAnchor='middle'>
+                      Q{`${i + 1}`}
+                    </SvgText>
                   );
                 }
               )}
