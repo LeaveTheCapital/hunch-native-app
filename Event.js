@@ -35,8 +35,6 @@ export default class Event extends Component {
       // const timeUntilEvent = new Date(timeUntilEventMs).toLocaleTimeString();
       const timeUntilEvent = moment(nextEvent.date).fromNow();
 
-      console.log("time til event", timeUntilEvent);
-      console.log("less than an hour", timeUntilEventMs < 3600000);
       const lobbyOpen = timeUntilEventMs < 3600000 ? true : false;
       return (
         <View style={styles.eventView}>

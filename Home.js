@@ -39,11 +39,9 @@ export default class Home extends Component {
   }
 
   handleBuyInPress = () => {
-    console.log("buy in button pressed..");
     const newNextEvent = { ...this.state.nextEvent };
     const { changeUserTickets } = this.props;
     const uid = this.props.user.uid;
-    // console.log("uid", uid, "user", user);
     newNextEvent.boughtIn = true;
     db.changeUsersTickets(uid, -1)
       .then(res => {

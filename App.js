@@ -38,12 +38,9 @@ export default class App extends React.Component {
 
   componentDidMount = () => {
     auth.onAuthStateChanged(user => {
-      console.log("authstatechange", user);
       if (user) {
-        console.log("hello", user.uid);
         Promise.all([user.uid, db.getUserInfo(user.uid)])
           .then(([uid, userDoc]) => {
-            console.log("logginLocally", userDoc.data);
             if (!userDoc.data.username) {
               this.loginLocally(null, null);
             } else {
@@ -87,7 +84,6 @@ export default class App extends React.Component {
     if (user) {
       const newUser = { ...user };
       newUser.uid = uid;
-      console.log("user logging in...", user.username);
       this.setState({ user: newUser, hunchHeight: 30 });
     } else {
       this.setState({ user });
@@ -104,7 +100,6 @@ export default class App extends React.Component {
     db.getUserInfo(user.uid)
       .then(userDoc => {
         const newTickets = userDoc.data.tickets;
-        console.log("new tickets", newTickets);
         const newUser = { ...this.state.user };
         newUser.tickets = newTickets;
         this.setState({ user: newUser });
@@ -117,7 +112,6 @@ export default class App extends React.Component {
   render() {
     let { textAnim, pinkAnim, user, hunchHeight } = this.state;
     const { height, width } = Dimensions.get("screen");
-    console.log("height", height, "width", width);
     const initialCoordinates = [30, 45];
     const smallCoordinates = [10, 40];
 

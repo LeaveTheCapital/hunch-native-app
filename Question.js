@@ -6,7 +6,8 @@ import { styles } from "./StyleSheet.js";
 export default class Question extends Component {
   state = {
     brainHeight: new Animated.Value(100),
-    modalVisible: true
+    modalVisible: true,
+    chosen: null
   };
   componentDidMount() {
     const { sendAnswer } = this.props;
@@ -18,44 +19,53 @@ export default class Question extends Component {
       this.setState({ modalVisible: false });
     });
   }
+
+  handleAnswerPress = (ans) => {
+    const {takeNoteOfUserAnswer} = this.props;
+    takeNoteOfUserAnswer(ans);
+    this.setState({chosen: ans})
+  }
   render() {
-    const { brainHeight, modalVisible } = this.state;
-    const { currentQ, handleAnswerPress, sendAnswer } = this.props;
+    const { brainHeight, modalVisible, chosen } = this.state;
+    const { currentQ, sendAnswer } = this.props;
     return (
       <Modal
         animationType="slide"
         visible={modalVisible}
         transparent={true}
         onRequestClose={() => {
-          alert("Modal has been closed.");
+          alert("Answer the question!!!");
         }}
       >
         <View style={styles.questionModalOuter}>
+        <View style={styles.questionModalContainer}>
+
           <View style={styles.questionModal}>
             <Text style={{ fontSize: 25 }}>{`${currentQ.question}`}</Text>
-            <TouchableHighlight onPress={() => handleAnswerPress("ans_a")}>
-              <Text style={styles.answerText}>{`${currentQ.answers[0]}`}</Text>
+            <TouchableHighlight disabled={chosen ? true : false} onPress={() => this.handleAnswerPress("ans_a")}>
+              <Text style={chosen === 'ans_a' ? [styles.answerText, {backgroundColor: 'palegoldenrod'}] : styles.answerText }>{`${currentQ.answers[0]}`}</Text>
             </TouchableHighlight>
-            <TouchableHighlight onPress={() => handleAnswerPress("ans_b")}>
-              <Text style={styles.answerText}>{`${currentQ.answers[1]}`}</Text>
+            <TouchableHighlight disabled={chosen ? true : false} onPress={() => this.handleAnswerPress("ans_b")}>
+              <Text style={chosen === 'ans_b' ? [styles.answerText, {backgroundColor: 'palegoldenrod'}] : styles.answerText }>{`${currentQ.answers[1]}`}</Text>
             </TouchableHighlight>
             {currentQ.answers_num == 3 && (
-              <TouchableHighlight onPress={() => handleAnswerPress("ans_c")}>
-                <Text style={styles.answerText}>{`${
+              <TouchableHighlight disabled={chosen ? true : false} onPress={() => this.handleAnswerPress("ans_c")}>
+                <Text style={chosen === 'ans_c' ? [styles.answerText, {backgroundColor: 'orange'}] : styles.answerText }>{`${
                   currentQ.answers[2]
-                  }`}</Text>
+                }`}</Text>
               </TouchableHighlight>
             )}
           </View>
           <View style={styles.questionBrainView}>
             <Animated.Image
-              style={{ width: 100, height: brainHeight }}
+              style={{ width: brainHeight, height: brainHeight }}
               source={{
                 uri:
-                  "http://pluspng.com/img-png/brain-png-red-brain-image-2540-2400.png"
+                "http://pluspng.com/img-png/brain-png-red-brain-image-2540-2400.png"
               }}
-            />
+              />
           </View>
+              </View>
         </View>
       </Modal>
     );

@@ -26,7 +26,8 @@ export default class Lobby extends Component {
     strokeAnim: new Animated.Value(0),
     currentQ: null,
     questions: null,
-    infoQuestion: null
+    infoQuestion: null,
+    animQuestion: null
   };
   componentDidMount() {
     Animated.timing(this.state.brainHeight, {
@@ -51,14 +52,13 @@ export default class Lobby extends Component {
         if (data.answers_num === 3) {
           answers = [data.ans_a, data.ans_b, data.ans_c];
           newQuestions[questionNumber].answers = answers;
-          console.log("hello", answers);
         } else if (data.answers_num === 2) {
           answers = [data.ans_a, data.ans_b];
           newQuestions[questionNumber].answers = answers;
         }
         if (currentQ) {
           if (data.question !== currentQ.question) {
-
+            console.log('currentQ first if block');
             Animated.sequence([Animated.timing(strokeAnim, {
               toValue: 35,
               duration: 1500
@@ -80,25 +80,30 @@ export default class Lobby extends Component {
             );
           }
         } else {
-          Animated.sequence([Animated.timing(strokeAnim, {
-            toValue: 35,
-            duration: 1500
-          }), Animated.timing(strokeAnim, {
-            toValue: 0,
-            duration: 100
-          })]).start(() =>
-            this.setState({
-              currentQ: {
-                question: data.question,
-                answers,
-                last_for: data.last_for,
-                questionNumber,
-                answers_num: data.answers_num
-              },
-              questions: newQuestions,
-              strokeAnim: new Animated.Value(0)
-            })
-          );
+          console.log('currentQ second if block');
+          this.setState({animQuestion: questionNumber}, ()=>{
+            Animated.sequence([Animated.timing(strokeAnim, {
+              toValue: 95,
+              duration: 1500
+            }), Animated.timing(strokeAnim, {
+              toValue: 0,
+              duration: 100
+            })]).start(() =>
+              this.setState({
+                currentQ: {
+                  question: data.question,
+                  answers,
+                  last_for: data.last_for,
+                  questionNumber,
+                  answers_num: data.answers_num
+                },
+                questions: newQuestions,
+                animQuestion: null
+                // strokeAnim: new Animated.Value(0)
+              })
+            );
+
+          })          
         }
       } else {
         console.log("snap length is 0");
@@ -132,15 +137,12 @@ export default class Lobby extends Component {
           newQuestions[doc.id].aAnswerers = aAnswerers;
           newQuestions[doc.id].bAnswerers = bAnswerers;
           cAnswerers ? (newQuestions[doc.id].cAnswerers = cAnswerers) : null;
-          console.log("fulfilled questions update:", newQuestions);
         });
         this.setState({ questions: newQuestions });
       } else {
         console.log("fulfilled q, snap.docs.length is 0");
       }
     });
-
-    console.log('nextEvent id', nextEvent.id)
 
     // const eventFinishRef = firestore
     //   .collection("Current_Event")
@@ -164,10 +166,9 @@ export default class Lobby extends Component {
     // });
   }
 
-  handleAnswerPress = ans => {
+  takeNoteOfUserAnswer = ans => {
     const newCurrentQ = { ...this.state.currentQ };
     newCurrentQ.userAnswer = ans;
-    console.log("ans", ans, "newCurrentQ", newCurrentQ);
     this.setState({
       currentQ: newCurrentQ
     });
@@ -176,32 +177,34 @@ export default class Lobby extends Component {
   sendAnswer = () => {
     const { currentQ } = this.state;
     const { nextEvent, user } = this.props;
-    console.log(
-      "sending answer...",
-      nextEvent.id,
-      user.uid,
-      currentQ.questionNumber,
-      currentQ.userAnswer
-    );
+    // console.log(
+    //   "sending answer...",
+    //   nextEvent.id,
+    //   user.uid,
+    //   currentQ.questionNumber,
+    //   currentQ.userAnswer
+    // );
     db.addUserAnswer(
       nextEvent.id,
       user.uid,
       currentQ.questionNumber,
       currentQ.userAnswer
     )
-      .then(data => console.log(data.data.msg))
-      .catch(console.log);
+      .then(data => {
+        console.log(data.data.msg);
+      })
+      .catch(data=> 
+        console.log('data from sendAnswer Catch Block', data)
+      );
   };
 
   handleInfoPress = questionNumber => {
-    console.log("infoPress", questionNumber);
     this.setState({
       infoQuestion: questionNumber
     });
   };
 
   closeInfo = () => {
-    console.log("closing info..");
     this.setState({
       infoQuestion: null
     });
@@ -209,37 +212,28 @@ export default class Lobby extends Component {
 
   render() {
     let { brainHeight, strokeAnim } = this.state;
-    const { currentQ, questions, infoQuestion } = this.state;
+    const { currentQ, questions, infoQuestion, animQuestion } = this.state;
     const { nextEvent, changeColour, colour } = this.props;
-    console.log("rendering Lobby.... questions...", questions);
-
-    if (currentQ) {
-      console.log('currentQ', currentQ)
-    }
-    console.log('nextEvent', nextEvent)
     const timeUntilEvent = moment(nextEvent.date).fromNow();
     const strokeSwell = strokeAnim.interpolate({
       inputRange: [0, 3],
       outputRange: ["0", "3"]
     });
+    const colourSwell = strokeAnim.interpolate({
+      inputRange: [0,1],
+      outputRange: ['blue', 'orange']
+    })
     return (
       <View style={styles.lobbyContainer}>
         <View style={styles.lobbyView}>
           <Text style={styles.lobbyTitle}>{nextEvent.name}</Text>
-          {!questions && (
-            <Text>No questions yet... Event starts {timeUntilEvent}</Text>
-          )}
-          {currentQ ? (
-            <View style={styles.modalContainer}>
-              <Question
+          <Text style={styles.lobbyBrainText}>Answer before the brain disappears...!</Text>
+          {currentQ && <Question
                 currentQ={currentQ}
-                handleAnswerPress={this.handleAnswerPress}
+                takeNoteOfUserAnswer={this.takeNoteOfUserAnswer}
                 sendAnswer={this.sendAnswer}
               />
-            </View>
-          ) : (
-              <Text />
-            )}
+          }
           {infoQuestion && (
             <QuestionInfo
               question={questions[infoQuestion]}
@@ -253,7 +247,7 @@ export default class Lobby extends Component {
               Array.from({ length: nextEvent.questions }, () => "q").map(
                 (ele, i) => {
                   let colour = "grey";
-                  let strokeColour = "darkgrey";
+                  let strokeColour = "grey";
                   if (questions) {
                     if (questions.hasOwnProperty(String(i + 1))) {
                       if (questions[i + 1].fulfilled) {
@@ -270,15 +264,15 @@ export default class Lobby extends Component {
                     <TouchableWithoutFeedback
                       key={i}
                       onPress={() => this.handleInfoPress(i + 1)}
-                    // disabled={!questions[i + 1] ? true : false}
+                    disabled={questions ? questions.hasOwnProperty([i + 1]) ? false : true: true}
                     >
                       <A.Circle
                         key={i * 20}
                         cx={`${40 + i * 65}`}
                         cy="78"
                         r={`${25}`}
-                        stroke={strokeColour}
-                        strokeWidth={strokeSwell}
+                        stroke={'cornflowerblue'}
+                        strokeWidth={animQuestion ? animQuestion == `${i + 1}` ? strokeSwell : '0' : '0'}
                         fill={colour}
                       />
                     </TouchableWithoutFeedback>
@@ -295,8 +289,8 @@ export default class Lobby extends Component {
                       stroke={colour}
                       fontSize="20"
                       fontWeight="bold"
-                      x={`${35 + i * 65}`}
-                      y="83"
+                      x={`${34 + i * 65}`}
+                      y="84"
                       textAnchor="middle"
                     >
                       Q{`${i + 1}`}

@@ -16,10 +16,15 @@ export const styles = StyleSheet.create({
   lobbyContainer: {
     flex: 1,
     flexDirection: "column",
-    justifyContent: "space-between",
+    justifyContent: "space-around",
     alignItems: "center"
   },
   lobbyTitle: {
+    fontSize: 45,
+    fontStyle: "italic",
+    textAlign: "center"
+  },
+  lobbyBrainText: {
     fontSize: 25,
     fontStyle: "italic",
     textAlign: "center"
@@ -94,39 +99,41 @@ export const styles = StyleSheet.create({
     padding: 2,
     opacity: 0.5
   },
-  modalContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
+  // modalContainer: {
+  //   flex: 1,
+  //   flexDirection: 'row',
+  //   justifyContent: 'center',
+  //   alignItems: 'center',
+  // },
   questionModalOuter: {
-
+    flex: 1,
     flexDirection: "column",
-    justifyContent: "space-around",
+    justifyContent: "center",
     alignItems: "center",
-    borderWidth: 2,
+    backgroundColor: "#000000a0",
+  },
+  questionModalContainer: {
+    width: 252,
+    height: 302,
+    borderWidth: 1,
     borderColor: "white",
     borderRadius: 3,
-    backgroundColor: "cornflowerblue",
-    width: 300,
-    height: 360
   },
   questionModal: {
-    // position: 'absolute',
-    // top: 40,
-    // right: 90,
-
-    borderWidth: 2,
-    borderColor: "orange",
-    borderRadius: 3
+    width: 250,
+    height: 150,
+    // borderWidth: 2,
+    // borderRadius: 3,
+    backgroundColor: "cornflowerblue",
+    
   },
   questionBrainView: {
-    borderWidth: 2,
-    borderColor: "red",
-    borderRadius: 3,
-    // height: 200,
-    // width: 100
+    // borderWidth: 2,
+    // borderColor: "white",
+    // borderRadius: 3,
+    width: 250,
+    height: 150,
+    backgroundColor: "cornflowerblue",    
   },
   questionInfoModalOuter: {
     flex: 1,
