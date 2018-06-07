@@ -141,7 +141,7 @@ export default class App extends React.Component {
         <View style={styles.loginContainer}>
           <A.Hunch
             height={hunchHeight >= height / 6.5 ? hunchSwell : hunchHeight}
-            svgHeight={hunchHeight >= height / 6.5 ? `${hunchHeight * 1.47}` : `${hunchHeight * 2.87}`}
+            svgHeight={hunchHeight >= height / 6.5 ? `${hunchHeight * 1.6}` : `${hunchHeight * 2.87}`}
             svgWidth="400"
             initialCoordinates={initialCoordinates}
             distance={70}
