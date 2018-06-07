@@ -5,13 +5,15 @@ import {
   Animated,
   Modal,
   TouchableNativeFeedback,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
+  Dimensions
 } from "react-native";
 import Svg, { Circle, Text as SvgText } from "react-native-svg";
 import SvgImage from "react-native-remote-svg";
 import { db, firestore } from "./firebase";
 import moment from "moment";
 import Question from "./Question.js";
+import ResultSplash from "./ResultSplash.js";
 import QuestionInfo from "./QuestionInfo.js";
 import { styles } from "./StyleSheet.js";
 
@@ -27,12 +29,13 @@ export default class Lobby extends Component {
     currentQ: null,
     questions: null,
     infoQuestion: null,
-    animQuestion: null
+    animQuestion: null,
+    totalUsers: null
   };
   componentDidMount() {
-
+    const { height, width } = Dimensions.get("screen");
     Animated.timing(this.state.brainHeight, {
-      toValue: 100,
+      toValue: height / 7.31,
       duration: 3000
     }).start();
     const { user, nextEvent } = this.props;
@@ -145,6 +148,20 @@ export default class Lobby extends Component {
       }
     });
 
+    const eventStartRef = firestore
+      .collection("Current_Event")
+      .where("start", "==", true);
+    eventStartRef.onSnapshot(snap => {
+      if (snap.docs.length) {
+        console.log("Event started!!!");
+        const { total_users } = snap.docs[0].data();
+        console.log("total_users: ", total_users);
+        this.setState({ totalUsers: total_users })
+      } else {
+        console.log("event not started");
+      }
+    });
+
     const eventFinishRef = firestore
       .collection("Current_Event")
       .where("complete", "==", true);
@@ -152,12 +169,15 @@ export default class Lobby extends Component {
       if (snap.docs.length) {
         console.log("Event finished!!!");
         db.getWinnersTally(nextEvent.id).then((res) => {
-          const { winners, topMark } = res.data;
+          const { winners, topMark, allMarks } = res.data;
+          console.log('allMarks', allMarks)
           if (winners.includes(user.uid)) {
             console.log(':money_mouth_face:')
+
           } else {
             console.log(':face_with_symbols_on_mouth:')
           }
+          this.setState({ allMarks, winners, topMark })
         }).catch((err) => {
           console.log(err)
         })
@@ -210,11 +230,18 @@ export default class Lobby extends Component {
       infoQuestion: null
     });
   };
+  
+  closeResultSplash = () => {
+    this.setState({
+      allMarks: null
+    });
+  }
 
   render() {
-    let { brainHeight, strokeAnim } = this.state;
+    let { brainHeight, strokeAnim, allMarks, topMark, winners, totalUsers } = this.state;
     const { currentQ, questions, infoQuestion, animQuestion } = this.state;
-    const { nextEvent, changeColour, colour } = this.props;
+    const { nextEvent, changeColour, colour, user } = this.props;
+    const { height, width } = Dimensions.get("screen");
     const timeUntilEvent = moment(nextEvent.date).fromNow();
     const strokeSwell = strokeAnim.interpolate({
       inputRange: [0, 3],
@@ -241,9 +268,12 @@ export default class Lobby extends Component {
               closeInfo={this.closeInfo}
             />
           )}
+          {
+            allMarks && <ResultSplash allMarks={allMarks} topMark={topMark} winners={winners} totalUsers={totalUsers} user={user} closeResultSplash={this.closeResultSplash} />
+          }
         </View>
         <View style={styles.lobbyView}>
-          <Svg height="150" width="400">
+          <Svg height="150" width={`${width}`}>
             {nextEvent &&
               Array.from({ length: nextEvent.questions }, () => "q").map(
                 (ele, i) => {
@@ -265,14 +295,14 @@ export default class Lobby extends Component {
                     <TouchableWithoutFeedback
                       key={i}
                       onPress={() => this.handleInfoPress(i + 1)}
-                      disabled={questions ? questions.hasOwnProperty([i + 1]) ? false : true : true}
+                      disabled={questions ? questions.hasOwnProperty([i + 1]) && questions[i + 1].hasOwnProperty('question') ? false : true : true}
                     >
                       <A.Circle
                         key={i * 20}
-                        cx={`${40 + i * 65}`}
+                        cx={`${width / 10 + i * width / 6.15}`}
                         cy="78"
-                        r={`${25}`}
-                        stroke={'cornflowerblue'}
+                        r={`${width / 16}`}
+                        stroke={colour}
                         strokeWidth={animQuestion ? animQuestion == `${i + 1}` ? strokeSwell : '0' : '0'}
                         fill={colour}
                       />
@@ -290,7 +320,7 @@ export default class Lobby extends Component {
                       stroke={colour}
                       fontSize="20"
                       fontWeight="bold"
-                      x={`${34 + i * 65}`}
+                      x={`${width / 11.7 + i * width / 6.15}`}
                       y="84"
                       textAnchor="middle"
                     >
@@ -334,7 +364,7 @@ export default class Lobby extends Component {
             ]}
           >
             <Text style={{ fontSize: 30, textAlign: "center", padding: 5 }}>
-              Press Me to change colour
+              Press me to change colour
             </Text>
           </View>
         </TouchableNativeFeedback>

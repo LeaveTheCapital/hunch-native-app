@@ -5,7 +5,8 @@ import {
   getNextEventUrl,
   changeUsersTicketsUrl,
   addUserAnswerUrl,
-  getWinnersTallyUrl
+  getWinnersTallyUrl,
+  addUserToEventUrl
 } from "../config";
 
 export const addUser = user => {
@@ -39,5 +40,9 @@ export const addUserAnswer = (event_id, uid, question, answer) => {
 };
 
 export const getWinnersTally = (event_id) => {
-  return axios.get(`https://us-central1-test-database-92434.cloudfunctions.net/getWinnersTally?event=${event_id}`);
+  return axios.get(`${getWinnersTallyUrl}?event=${event_id}`);
+}
+
+export const addUserToEvent = (uid, event_id) => {
+  return axios.post(addUserToEventUrl, { uid, event: event_id })
 }

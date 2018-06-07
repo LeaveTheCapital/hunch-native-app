@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Text, Modal } from "react-native";
+import { View, ScrollView, Text, Modal } from "react-native";
 import { styles } from "./StyleSheet.js";
 
 export default class QuestionInfo extends Component {
@@ -21,16 +21,19 @@ export default class QuestionInfo extends Component {
       >
         <View style={styles.questionInfoModalOuter}>
           <View style={styles.questionInfoModal}>
-            <Text style={{ fontSize: 25 }}>{`${question.question}`}</Text>
-            <Text style={styles.answerText}>{`A: ${question.answers[0]}`}</Text>
-            <Text style={styles.answerText}>{`B: ${question.answers[1]}`}</Text>
-            <Text style={styles.answerText}>{`People who answered A: ${
-              question.aAnswerers
-              }`}</Text>
-            <Text style={styles.answerText}>{`People who answered B: ${question.bAnswerers}`}</Text>
-            {/* {question.hasOwnProperty(cAnswerers) && (
-              <Text style={styles.answerText}>{`people who answered C: ${question.cAnswerers}`}</Text>
-            )} */}
+            <ScrollView style={styles.questionScrollView}>
+
+              <Text style={{ fontSize: 25 }}>{`${question.question}`}</Text>
+              <Text style={styles.answerText}>{`A: ${question.answers[0]}`}</Text>
+              <Text style={styles.answerText}>{`B: ${question.answers[1]}`}</Text>
+              {question.hasOwnProperty('aAnswerers') && <Text style={styles.answerText}>{`People who answered A: ${
+                question.aAnswerers
+                }`}</Text>}
+              {question.hasOwnProperty('bAnswerers') && <Text style={styles.answerText}>{`People who answered B: ${question.bAnswerers}`}</Text>}
+              {question.hasOwnProperty('cAnswerers') && (
+                <Text style={styles.answerText}>{`people who answered C: ${question.cAnswerers}`}</Text>
+              )}
+            </ScrollView>
           </View>
         </View>
       </Modal>

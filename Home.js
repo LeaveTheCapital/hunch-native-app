@@ -1,8 +1,9 @@
 import React, { Component } from "react";
-import { View, Text, Animated, TouchableNativeFeedback } from "react-native";
+import { View, Text, Animated, TouchableNativeFeedback, Dimensions } from "react-native";
 import { db, firestore } from "./firebase";
 import Hunch from "./Hunch.js";
 import Event from "./Event.js";
+import ThreeLines from "./ThreeLines.js";
 import Lobby from "./Lobby.js";
 import Tickets from "./Tickets.js";
 import { styles } from "./StyleSheet.js";
@@ -45,7 +46,7 @@ export default class Home extends Component {
     newNextEvent.boughtIn = true;
     db.changeUsersTickets(uid, -1)
       .then(res => {
-        console.log(res.data.tickets);
+        db.addUserToEvent(uid, newNextEvent.id);
         this.setState({ nextEvent: newNextEvent });
       })
       .then(res => changeUserTickets())
@@ -72,19 +73,23 @@ export default class Home extends Component {
       user,
       openDrawer
     } = this.props;
+    const { height, width } = Dimensions.get("screen");
     console.log('new colour', colour)
     return (
       <View style={[styles.homeContainer, { backgroundColor: colour }]}>
+        <View>
+          <A.Hunch
+            height={hunchSwellSmall}
+            svgHeight="100"
+            svgWidth="400"
+            initialCoordinates={smallCoordinates}
+            distance={20}
+            hunchHeight={hunchHeight}
+          />
+        </View>
         <TouchableNativeFeedback onPress={openDrawer}>
-          <View>
-            <A.Hunch
-              height={hunchSwellSmall}
-              svgHeight="100"
-              svgWidth="400"
-              initialCoordinates={smallCoordinates}
-              distance={20}
-              hunchHeight={hunchHeight}
-            />
+          <View style={{ position: 'absolute', top: 10, right: 300, zIndex: 3 }}>
+            <ThreeLines height={height} width={width} />
           </View>
         </TouchableNativeFeedback>
         <Tickets tickets={user.tickets} />

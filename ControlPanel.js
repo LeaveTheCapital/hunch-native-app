@@ -29,6 +29,7 @@ export default class ControlPanel extends Component {
         />
         <Button
           style={styles.signOutButton}
+          textStyle={styles.controlPanelText}
           onPress={() => {
             this.handlePressButtonAsync();
           }}

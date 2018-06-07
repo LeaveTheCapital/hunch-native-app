@@ -51,20 +51,20 @@ export default class Event extends Component {
           {!nextEvent.boughtIn ? (
             <Button
               text={"Buy In!"}
-              style={styles.buyInButton}
+              style={styles.submitButton}
               disabledStyle={styles.disabledBuyInButton}
               disabled={disabled}
               onPress={handleBuyInPress}
             />
           ) : !lobbyOpen ? (
-            <Text>Event starts in... {timeUntilEvent};</Text>
+            <Text>Event starts... {timeUntilEvent};</Text>
           ) : (
-            <Button
-              text="Enter Lobby"
-              style={styles.buyInButton}
-              onPress={this.handleEnterLobbyPress}
-            />
-          )}
+                <Button
+                  text="Enter Lobby"
+                  style={styles.submitButton}
+                  onPress={this.handleEnterLobbyPress}
+                />
+              )}
         </View>
       );
     } else {

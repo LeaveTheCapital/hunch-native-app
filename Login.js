@@ -21,7 +21,7 @@ const formStyles = {
     normal: {
       marginBottom: 20,
       // was 10
-      width: 300
+      width: 290
     }
   },
   controlLabel: {
@@ -81,8 +81,8 @@ export default class Login extends Component {
   getInitialState = () => {
     return {
       value: {
-        name: 'Peter',
-        surname: 'In_The_House'
+        email: 'p@p.com',
+        password: 'password123'
       }
     };
   }
@@ -139,7 +139,7 @@ export default class Login extends Component {
         style={
           !keyboardVisible
             ? styles.formContainer
-            : [styles.formContainer, { marginTop: 20 }]
+            : [styles.formContainer, { marginTop: 10 }]
         }
       >
         <Form ref={c => (this._form = c)} type={User} options={options} value={this.state.value}

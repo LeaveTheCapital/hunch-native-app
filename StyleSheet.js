@@ -36,18 +36,20 @@ export const styles = StyleSheet.create({
     // alignItems: "center"
   },
   controlPanel: {
-    marginTop: 20,
-    paddingTop: 10,
-    backgroundColor: "cornflowerblue"
+    paddingLeft: 5,
+    marginTop: 25,
+    paddingTop: 8
   },
   controlPanelWelcome: {
     color: "pink",
     fontSize: 20
   },
   signOutButton: {
-    borderWidth: 1,
-    borderColor: "black",
-    marginRight: 60
+    marginRight: 60,
+    marginTop: 10,
+  },
+  controlPanelText: {
+    fontSize: 19,
   },
   ticketsText: {
     color: "white",
@@ -65,6 +67,7 @@ export const styles = StyleSheet.create({
   eventView: {
     flex: 3,
     flexDirection: "column",
+    justifyContent: 'space-around',
     alignItems: "center",
     borderWidth: 3,
     borderColor: "white",
@@ -75,7 +78,7 @@ export const styles = StyleSheet.create({
     paddingLeft: 10,
     paddingRight: 10,
     paddingTop: 3,
-    paddingBottom: 3
+    paddingBottom: 5
   },
   eventTitle: {
     fontSize: 30
@@ -107,50 +110,45 @@ export const styles = StyleSheet.create({
   // },
   questionModalOuter: {
     flex: 1,
-    flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#000000a0",
+    backgroundColor: "#00000060",
   },
   questionModalContainer: {
-    width: 252,
-    height: 302,
     borderWidth: 1,
     borderColor: "white",
     borderRadius: 3,
+    backgroundColor: 'cornflowerblue',
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   questionModal: {
-    width: 250,
-    height: 150,
-    // borderWidth: 2,
-    // borderRadius: 3,
+    // width: 250,
+    // height: 350,
     backgroundColor: "cornflowerblue",
-
   },
   questionBrainView: {
-    // borderWidth: 2,
-    // borderColor: "white",
-    // borderRadius: 3,
-    width: 250,
-    height: 150,
+    width: 72,
+    height: 72,
     backgroundColor: "cornflowerblue",
   },
   questionInfoModalOuter: {
     flex: 1,
     flexDirection: "column",
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
+    backgroundColor: "#00000060",
   },
   questionInfoModal: {
-    // position: 'absolute',
-    // top: 40,
-    // right: 90,
     width: 300,
     height: 260,
     borderWidth: 2,
     borderColor: "white",
     borderRadius: 3,
     backgroundColor: "grey"
+  },
+  questionScrollView: {
+    flex: 1
   },
   questionTitle: {
     fontSize: 25,
@@ -184,8 +182,10 @@ export const styles = StyleSheet.create({
   submitButton: {
     backgroundColor: "cornflowerblue",
     borderColor: "orange",
-    borderWidth: 7,
+    borderWidth: 0,
+    borderRadius: 3,
     marginTop: 30,
+    padding: 2
   },
   lobbyView: {}
 });
