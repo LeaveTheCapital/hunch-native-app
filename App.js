@@ -36,9 +36,7 @@ export default class App extends React.Component {
     initialCoordinates: "10, 40"
   };
 
-
   componentDidMount = () => {
-
     const { height, width } = Dimensions.get("screen");
     this.setState({ hunchHeight: height / 6.7 });
     auth.onAuthStateChanged(user => {
@@ -72,8 +70,9 @@ export default class App extends React.Component {
   makeHunchSmallerOrBigger = () => {
     const { hunchHeight } = this.state;
     const { height, width } = Dimensions.get("screen");
-    const newHunchHeight = hunchHeight >= height / 6.7 ? height / 12 : height / 6.7;
-    console.log(newHunchHeight)
+    const newHunchHeight =
+      hunchHeight >= height / 6.7 ? height / 12 : height / 6.7;
+    console.log(newHunchHeight);
     this.setState({
       hunchHeight: newHunchHeight
     });
@@ -120,7 +119,8 @@ export default class App extends React.Component {
     const { height, width } = Dimensions.get("screen");
     console.log(height, width);
     const initialCoordinates = [30, 45];
-    const smallCoordinates = width < 380 ? [width / 2.3, height / 20] : [width / 2.7, height / 20];
+    const smallCoordinates =
+      width < 380 ? [width / 2.3, height / 20] : [width / 2.7, height / 20];
     console.log(smallCoordinates);
 
     const pinkSwell = pinkAnim.interpolate({
@@ -142,15 +142,17 @@ export default class App extends React.Component {
         <View style={styles.loginContainer}>
           <A.Hunch
             height={hunchHeight >= height / 6.7 ? hunchSwell : hunchHeight}
-            svgHeight={hunchHeight >= height / 6.7 ? `${hunchHeight * 1.7}` : `${hunchHeight * 2.87}`}
+            svgHeight={
+              hunchHeight >= height / 6.7
+                ? `${hunchHeight * 1.7}`
+                : `${hunchHeight * 2.87}`
+            }
             svgWidth="400"
             initialCoordinates={initialCoordinates}
             distance={70}
           />
           <View style={styles.userArea}>
-            <Login
-              makeHunchSmallerOrBigger={this.makeHunchSmallerOrBigger}
-            />
+            <Login makeHunchSmallerOrBigger={this.makeHunchSmallerOrBigger} />
           </View>
         </View>
       );
@@ -170,7 +172,7 @@ export default class App extends React.Component {
           closedDrawerOffset={-15}
           captureGestures={true}
           styles={drawerStyles}
-          tweenHandler={(ratio) => ({ main: { opacity: (2 - ratio) / 2 } })}
+          tweenHandler={ratio => ({ main: { opacity: (2 - ratio) / 2 } })}
           // tweenHandler={Drawer.tweenPresets.parallax}
           ref={ref => (this._drawer = ref)}
         >
@@ -191,16 +193,16 @@ export default class App extends React.Component {
 const drawerStyles = {
   drawer: {
     paddingLeft: 0,
-    backgroundColor: "#BA4D83",
-    shadowColor: "red",
-    shadowOpacity: 0.8,
-    shadowRadius: 5,
-    shadowOffset: 10,
+    backgroundColor: "#BA4D83"
+    // shadowColor: "red",
+    // shadowOpacity: 0.8,
+    // shadowRadius: 5
+    // shadowOffset: 10,
   },
   main: {
-    backgroundColor: 'red',
+    backgroundColor: "blue",
     paddingLeft: 3,
-    shadowColor: "red",
+    shadowColor: "blue",
     shadowOpacity: 0.8,
     shadowRadius: 5
   }
