@@ -3,7 +3,7 @@ import { StyleSheet } from "react-native";
 export const styles = StyleSheet.create({
   loginContainer: {
     flex: 1,
-    backgroundColor: "#ff69b4",
+    backgroundColor: "hotpink",
     alignItems: "center",
     justifyContent: "flex-start"
   },
@@ -125,7 +125,7 @@ export const styles = StyleSheet.create({
     // borderWidth: 2,
     // borderRadius: 3,
     backgroundColor: "cornflowerblue",
-    
+
   },
   questionBrainView: {
     // borderWidth: 2,
@@ -133,7 +133,7 @@ export const styles = StyleSheet.create({
     // borderRadius: 3,
     width: 250,
     height: 150,
-    backgroundColor: "cornflowerblue",    
+    backgroundColor: "cornflowerblue",
   },
   questionInfoModalOuter: {
     flex: 1,
@@ -175,7 +175,7 @@ export const styles = StyleSheet.create({
   formContainer: {
     flex: 1,
     justifyContent: "flex-start",
-    marginTop: 0,
+    marginTop: 20,
     marginLeft: 30,
     marginRight: 30,
     padding: 2,
@@ -184,7 +184,8 @@ export const styles = StyleSheet.create({
   submitButton: {
     backgroundColor: "cornflowerblue",
     borderColor: "orange",
-    borderWidth: 7
+    borderWidth: 7,
+    marginTop: 30,
   },
   lobbyView: {}
 });

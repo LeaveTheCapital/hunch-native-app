@@ -10,16 +10,16 @@ const Form = t.form.Form;
 
 const User = t.struct({
   email: t.String,
-  username: t.maybe(t.String),
+  // username: t.maybe(t.String),
   password: t.String,
-  terms: t.Boolean
+  // terms: t.Boolean
 });
 
 const formStyles = {
   ...Form.stylesheet,
   formGroup: {
     normal: {
-      marginBottom: 0,
+      marginBottom: 20,
       // was 10
       width: 300
     }
@@ -50,9 +50,9 @@ const options = {
     password: {
       error: "password strength too low"
     },
-    terms: {
-      label: "Agree to Terms"
-    }
+    // terms: {
+    //   label: "Agree to Terms"
+    // }
   },
   stylesheet: formStyles
 };
@@ -61,6 +61,7 @@ export default class Login extends Component {
   state = {
     keyboardVisible: false
   };
+
   componentDidMount() {
     this.keyboardDidShowListener = Keyboard.addListener(
       "keyboardDidShow",
@@ -77,6 +78,19 @@ export default class Login extends Component {
     this.keyboardDidHideListener.remove();
   }
 
+  getInitialState = () => {
+    return {
+      value: {
+        name: 'Peter',
+        surname: 'In_The_House'
+      }
+    };
+  }
+
+  onChange = (value) => {
+    this.setState({ value });
+  }
+
   _keyboardDidShow = () => {
     const { makeHunchSmallerOrBigger } = this.props;
     makeHunchSmallerOrBigger();
@@ -91,7 +105,8 @@ export default class Login extends Component {
 
   handleSubmit = () => {
     const { loginLocally } = this.props;
-    const { username, email, password } = this._form.getValue();
+    const value = this._form.getValue();
+    const { username, email, password } = value;
     if (username && email && password) {
       authDB
         .doCreateUserWithEmailAndPassword(email, password)
@@ -124,12 +139,13 @@ export default class Login extends Component {
         style={
           !keyboardVisible
             ? styles.formContainer
-            : [styles.formContainer, { marginTop: 0 }]
+            : [styles.formContainer, { marginTop: 20 }]
         }
       >
-        <Form ref={c => (this._form = c)} type={User} options={options} />
+        <Form ref={c => (this._form = c)} type={User} options={options} value={this.state.value}
+          onChange={this.onChange} />
         <Button
-          title="Login / Sign Up"
+          title="Sign In"
           onPress={this.handleSubmit}
           style={styles.submitButton}
         />

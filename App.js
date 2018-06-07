@@ -36,7 +36,11 @@ export default class App extends React.Component {
     initialCoordinates: "10, 40"
   };
 
+
   componentDidMount = () => {
+
+    const { height, width } = Dimensions.get("screen");
+    this.setState({ hunchHeight: height / 6.5 });
     auth.onAuthStateChanged(user => {
       if (user) {
         Promise.all([user.uid, db.getUserInfo(user.uid)])
@@ -67,7 +71,9 @@ export default class App extends React.Component {
 
   makeHunchSmallerOrBigger = () => {
     const { hunchHeight } = this.state;
-    const newHunchHeight = hunchHeight >= 30 ? 30 : 30;
+    const { height, width } = Dimensions.get("screen");
+    const newHunchHeight = hunchHeight >= height / 6.5 ? height / 20 : height / 6.5;
+    console.log(newHunchHeight)
     this.setState({
       hunchHeight: newHunchHeight
     });
@@ -112,6 +118,7 @@ export default class App extends React.Component {
   render() {
     let { textAnim, pinkAnim, user, hunchHeight } = this.state;
     const { height, width } = Dimensions.get("screen");
+    console.log(height, width);
     const initialCoordinates = [30, 45];
     const smallCoordinates = [10, 40];
 
@@ -133,8 +140,8 @@ export default class App extends React.Component {
       return (
         <View style={styles.loginContainer}>
           <A.Hunch
-            height={hunchHeight >= 100 ? hunchSwell : hunchHeight}
-            svgHeight={hunchHeight >= 100 ? "165" : "90"}
+            height={hunchHeight >= height / 6.5 ? hunchSwell : hunchHeight}
+            svgHeight={hunchHeight >= height / 6.5 ? `${hunchHeight * 1.47}` : `${hunchHeight * 2.87}`}
             svgWidth="400"
             initialCoordinates={initialCoordinates}
             distance={70}

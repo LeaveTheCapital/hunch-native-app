@@ -30,6 +30,7 @@ export default class Lobby extends Component {
     animQuestion: null
   };
   componentDidMount() {
+
     Animated.timing(this.state.brainHeight, {
       toValue: 100,
       duration: 3000
@@ -81,7 +82,7 @@ export default class Lobby extends Component {
           }
         } else {
           console.log('currentQ second if block');
-          this.setState({animQuestion: questionNumber}, ()=>{
+          this.setState({ animQuestion: questionNumber }, () => {
             Animated.sequence([Animated.timing(strokeAnim, {
               toValue: 95,
               duration: 1500
@@ -103,7 +104,7 @@ export default class Lobby extends Component {
               })
             );
 
-          })          
+          })
         }
       } else {
         console.log("snap length is 0");
@@ -144,26 +145,26 @@ export default class Lobby extends Component {
       }
     });
 
-    // const eventFinishRef = firestore
-    //   .collection("Current_Event")
-    //   .where("complete", "==", true);
-    // eventFinishRef.onSnapshot(snap => {
-    //   if (snap.docs.length) {
-    //     console.log("Event finished!!!");
-    //     db.getWinnersTally(nextEvent.id).then((res) => {
-    //       const { winners, topMark } = res.data;
-    //       if (winners.includes(user.uid)) {
-    //         console.log(':money_mouth_face:')
-    //       } else {
-    //         console.log(':face_with_symbols_on_mouth:')
-    //       }
-    //     }).catch((err) => {
-    //       //oops
-    //     })
-    //   } else {
-    //     console.log("event not finished");
-    //   }
-    // });
+    const eventFinishRef = firestore
+      .collection("Current_Event")
+      .where("complete", "==", true);
+    eventFinishRef.onSnapshot(snap => {
+      if (snap.docs.length) {
+        console.log("Event finished!!!");
+        db.getWinnersTally(nextEvent.id).then((res) => {
+          const { winners, topMark } = res.data;
+          if (winners.includes(user.uid)) {
+            console.log(':money_mouth_face:')
+          } else {
+            console.log(':face_with_symbols_on_mouth:')
+          }
+        }).catch((err) => {
+          console.log(err)
+        })
+      } else {
+        console.log("event not finished");
+      }
+    });
   }
 
   takeNoteOfUserAnswer = ans => {
@@ -193,7 +194,7 @@ export default class Lobby extends Component {
       .then(data => {
         console.log(data.data.msg);
       })
-      .catch(data=> 
+      .catch(data =>
         console.log('data from sendAnswer Catch Block', data)
       );
   };
@@ -220,7 +221,7 @@ export default class Lobby extends Component {
       outputRange: ["0", "3"]
     });
     const colourSwell = strokeAnim.interpolate({
-      inputRange: [0,1],
+      inputRange: [0, 1],
       outputRange: ['blue', 'orange']
     })
     return (
@@ -229,10 +230,10 @@ export default class Lobby extends Component {
           <Text style={styles.lobbyTitle}>{nextEvent.name}</Text>
           <Text style={styles.lobbyBrainText}>Answer before the brain disappears...!</Text>
           {currentQ && <Question
-                currentQ={currentQ}
-                takeNoteOfUserAnswer={this.takeNoteOfUserAnswer}
-                sendAnswer={this.sendAnswer}
-              />
+            currentQ={currentQ}
+            takeNoteOfUserAnswer={this.takeNoteOfUserAnswer}
+            sendAnswer={this.sendAnswer}
+          />
           }
           {infoQuestion && (
             <QuestionInfo
@@ -264,7 +265,7 @@ export default class Lobby extends Component {
                     <TouchableWithoutFeedback
                       key={i}
                       onPress={() => this.handleInfoPress(i + 1)}
-                    disabled={questions ? questions.hasOwnProperty([i + 1]) ? false : true: true}
+                      disabled={questions ? questions.hasOwnProperty([i + 1]) ? false : true : true}
                     >
                       <A.Circle
                         key={i * 20}
