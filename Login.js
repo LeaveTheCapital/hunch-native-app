@@ -59,7 +59,8 @@ const options = {
 
 export default class Login extends Component {
   state = {
-    keyboardVisible: false
+    keyboardVisible: false,
+    signInMode: true,
   };
 
   componentDidMount() {
@@ -82,7 +83,8 @@ export default class Login extends Component {
     return {
       value: {
         email: 'p@p.com',
-        password: 'password123'
+        password: 'password123',
+        username: 'peter'
       }
     };
   }
@@ -103,7 +105,12 @@ export default class Login extends Component {
     this.setState({ keyboardVisible: false });
   };
 
+  toggleSignInMode = () => {
+    this.setState({ signInMode: !signInMode })
+  }
+
   handleSubmit = () => {
+    const { signInMode } = this.state;
     const { loginLocally } = this.props;
     const value = this._form.getValue();
     const { username, email, password } = value;
@@ -149,6 +156,7 @@ export default class Login extends Component {
           onPress={this.handleSubmit}
           style={styles.submitButton}
         />
+        {<Button title="Register" onPress={toggleSignInMode} />}
       </View>
     );
   }
