@@ -9,7 +9,9 @@ export default class ControlPanel extends Component {
   handlePressButtonAsync = async () => {
     const { user, changeUserTickets, closeDrawer } = this.props;
     let result = await WebBrowser.openBrowserAsync(
-      `https://ci27ow4ut6.execute-api.eu-west-2.amazonaws.com/latest/pay/${user.uid}?amount=${10}`
+      `https://ci27ow4ut6.execute-api.eu-west-2.amazonaws.com/latest/pay/${
+        user.uid
+      }?amount=${10}`
     );
     changeUserTickets();
     closeDrawer();
@@ -22,6 +24,7 @@ export default class ControlPanel extends Component {
         <Text style={styles.controlPanelWelcome}>{user.username}</Text>
         <Button
           style={styles.signOutButton}
+          textStyle={styles.signOutText}
           onPress={() => {
             this.props.signOut();
           }}
@@ -34,6 +37,22 @@ export default class ControlPanel extends Component {
             this.handlePressButtonAsync();
           }}
           text="Buy Tickets"
+        />
+        <Button
+          style={styles.signOutButton}
+          textStyle={styles.controlPanelText}
+          onPress={() => {
+            console.log("Don't touch that please");
+          }}
+          text="Account"
+        />
+        <Button
+          style={styles.signOutButton}
+          textStyle={styles.controlPanelText}
+          onPress={() => {
+            console.log("Don't touch that please");
+          }}
+          text="Contact Us"
         />
       </View>
     );

@@ -38,7 +38,10 @@ export const styles = StyleSheet.create({
   controlPanel: {
     paddingLeft: 5,
     marginTop: 25,
-    paddingTop: 8
+    paddingTop: 8,
+    flexDirection: "column"
+    // justifyContent: "space-around",
+    // alignItems: "center"
   },
   controlPanelWelcome: {
     color: "pink",
@@ -46,10 +49,23 @@ export const styles = StyleSheet.create({
   },
   signOutButton: {
     marginRight: 60,
-    marginTop: 10,
+    marginTop: 20,
+    height: 120,
+    borderWidth: 2,
+    borderColor: "white",
+    width: 120,
+    borderRadius: 15,
+    flexDirection: "column",
+    justifyContent: "space-around",
+    alignItems: "center"
+  },
+  signOutText: {
+    fontSize: 20,
+    color: "white"
   },
   controlPanelText: {
-    fontSize: 19,
+    fontSize: 20,
+    color: "white"
   },
   ticketsText: {
     color: "white",
@@ -67,7 +83,7 @@ export const styles = StyleSheet.create({
   eventView: {
     flex: 3,
     flexDirection: "column",
-    justifyContent: 'space-around',
+    justifyContent: "space-around",
     alignItems: "center",
     borderWidth: 3,
     borderColor: "white",
@@ -112,32 +128,32 @@ export const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#00000060",
+    backgroundColor: "#00000060"
   },
   questionModalContainer: {
     borderWidth: 1,
     borderColor: "white",
     borderRadius: 3,
-    backgroundColor: 'cornflowerblue',
-    flexDirection: 'row',
-    alignItems: 'center',
+    backgroundColor: "cornflowerblue",
+    flexDirection: "row",
+    alignItems: "center"
   },
   questionModal: {
     // width: 250,
     // height: 350,
-    backgroundColor: "cornflowerblue",
+    backgroundColor: "cornflowerblue"
   },
   questionBrainView: {
     width: 72,
     height: 72,
-    backgroundColor: "cornflowerblue",
+    backgroundColor: "cornflowerblue"
   },
   questionInfoModalOuter: {
     flex: 1,
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#00000060",
+    backgroundColor: "#00000060"
   },
   questionInfoModal: {
     width: 300,
