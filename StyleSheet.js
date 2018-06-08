@@ -111,7 +111,7 @@ export const styles = StyleSheet.create({
     color: "green"
   },
   disabledBuyInButton: {
-    color: "grey",
+    backgroundColor: "grey",
     borderColor: "cornflowerblue",
     borderWidth: 2,
     borderRadius: 5,
@@ -141,7 +141,8 @@ export const styles = StyleSheet.create({
   questionModal: {
     // width: 250,
     // height: 350,
-    backgroundColor: "cornflowerblue"
+    backgroundColor: "cornflowerblue",
+    paddingLeft: 2
   },
   questionBrainView: {
     width: 72,

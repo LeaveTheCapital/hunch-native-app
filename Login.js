@@ -164,7 +164,7 @@ export default class Login extends Component {
           onPress={this.handleSubmit}
           style={styles.submitButton}
         />
-        {signInMode ? (<View style={{ paddingTop: 3, textAlign: 'center' }}>
+        {signInMode ? (<View style={{ paddingTop: 3 }}>
           <Text style={{ textAlign: 'center' }}
           >Don't have an account?
           <TouchableWithoutFeedback onPress={this.toggleSignInMode}><Text style={{ color: 'blue' }}>{' '}Register</Text></TouchableWithoutFeedback></Text>

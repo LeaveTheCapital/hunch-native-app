@@ -18,7 +18,7 @@ import Home from "./Home.js";
 import ControlPanel from "./ControlPanel.js";
 import { styles } from "./StyleSheet.js";
 
-YellowBox.ignoreWarnings(["Setting"]);
+YellowBox.ignoreWarnings(["Warning:", "Setting"]);
 
 const A = {
   Line: Animated.createAnimatedComponent(Line),
