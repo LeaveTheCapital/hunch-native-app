@@ -11,7 +11,7 @@ export default class ControlPanel extends Component {
     let result = await WebBrowser.openBrowserAsync(
       `https://ci27ow4ut6.execute-api.eu-west-2.amazonaws.com/latest/pay/${
         user.uid
-      }?amount=${10}`
+      }?amount=${1}`
     );
     changeUserTickets();
     closeDrawer();

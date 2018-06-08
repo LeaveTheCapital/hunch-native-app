@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import moment from "moment";
 import Button from "./Button";
+import LobbyButton from "./LobbyButton";
 import { styles } from "./StyleSheet.js";
 
 export default class Event extends Component {
@@ -17,16 +18,14 @@ export default class Event extends Component {
     enterLobby();
   };
   render() {
-    const { nextEvent, user, handleBuyInPress } = this.props;
+    const { nextEvent, user, handleBuyInPress, buyInPressed } = this.props;
     const { height, width } = Dimensions.get("screen");
     let disabled = false;
     if (user.tickets === 0) {
       disabled = true;
     }
-    if (nextEvent) {
-      if (nextEvent.boughtIn) {
-        disabled = true;
-      }
+    if (buyInPressed) {
+      disabled = true;
     }
     if (nextEvent) {
       const eventDate = new Date(nextEvent.date).toLocaleDateString();
@@ -59,7 +58,7 @@ export default class Event extends Component {
           ) : !lobbyOpen ? (
             <Text>Event starts... {timeUntilEvent};</Text>
           ) : (
-                <Button
+                <LobbyButton
                   text="Enter Lobby"
                   style={styles.submitButton}
                   onPress={this.handleEnterLobbyPress}

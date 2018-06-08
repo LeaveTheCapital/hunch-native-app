@@ -37,7 +37,7 @@ export default class ResultSplash extends Component {
               {winner ? <Text style={{ fontSize: 18 }}>You won a £{parseFloat(Math.round(prizePool / winners.length * 100) / 100).toFixed(2)} share of the {winners.length === 1 ? 'entire' : 'total'} £{parseFloat(Math.round(prizePool * 100) / 100).toFixed(2)} prize pool!! Click on your profile to redeem your funds
               <Text style={{ fontSize: 68, textAlign: 'center', paddingTop: 10 }}>{'\n'}🎉</Text>
               </Text>
-                : <Text style={{ fontSize: 18 }}>{winners.length} {winners.length === 1 ? 'person' : 'people'} won £{parseFloat(Math.round(prizePool * 100) / 100).toFixed(2) / winners.length} {winners.length === 1 ? '' : 'each'}. Better luck next time <Text style={{ fontSize: 68, textAlign: 'center', paddingTop: 10 }}>{'\n'}😤</Text></Text>}
+                : <Text style={{ fontSize: 18 }}>{winners.length} {winners.length === 1 ? 'person' : 'people'} won £{parseFloat(Math.round(prizePool / winners.length * 100) / 100).toFixed(2)} {winners.length === 1 ? '' : 'each'}. Better luck next time <Text style={{ fontSize: 68, textAlign: 'center', paddingTop: 10 }}>{'\n'}😤</Text></Text>}
             </ScrollView>
           </View>
         </View>

@@ -72,7 +72,6 @@ export default class App extends React.Component {
     const { height, width } = Dimensions.get("screen");
     const newHunchHeight =
       hunchHeight >= height / 6.7 ? height / 18 : height / 6.7;
-    console.log(newHunchHeight);
     this.setState({
       hunchHeight: newHunchHeight
     });
@@ -117,11 +116,9 @@ export default class App extends React.Component {
   render() {
     let { textAnim, pinkAnim, user, hunchHeight } = this.state;
     const { height, width } = Dimensions.get("screen");
-    console.log(height, width);
     const initialCoordinates = [30, 45];
     const smallCoordinates =
       width < 380 ? [width / 2.3, height / 20] : [width / 2.7, height / 20];
-    console.log(smallCoordinates);
 
     const pinkSwell = pinkAnim.interpolate({
       inputRange: [0, 100],

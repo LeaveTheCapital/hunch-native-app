@@ -181,6 +181,26 @@ export const styles = StyleSheet.create({
     backgroundColor: "white",
     borderRadius: 3
   },
+  correctAnswerText: {
+    fontSize: 15,
+    color: "white",
+    padding: 10,
+    marginTop: 2.5,
+    marginRight: 5,
+    marginLeft: 5,
+    backgroundColor: "green",
+    borderRadius: 3
+  },
+  incorrectAnswerText: {
+    fontSize: 15,
+    color: "white",
+    padding: 10,
+    marginTop: 2.5,
+    marginRight: 5,
+    marginLeft: 5,
+    backgroundColor: "red",
+    borderRadius: 3
+  },
   form: {
     flex: 1,
     borderWidth: 2,

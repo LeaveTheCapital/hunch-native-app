@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Text, Animated, Modal, TouchableHighlight, Dimensions } from "react-native";
+import { View, ScrollView, Text, Animated, Modal, TouchableHighlight, Dimensions } from "react-native";
 import SvgImage from "react-native-remote-svg";
 import { styles } from "./StyleSheet.js";
 
@@ -45,20 +45,22 @@ export default class Question extends Component {
         <View style={styles.questionModalOuter}>
           <View style={[styles.questionModalContainer, { width: containerWidth, height: containerHeight }]}>
             <View style={[styles.questionModal, { width: questionWidth, height: questionHeight }]}>
-              <Text style={{ fontSize: 25 }}>{`${currentQ.question}`}</Text>
-              <TouchableHighlight disabled={chosen ? true : false} onPress={() => this.handleAnswerPress("ans_a")}>
-                <Text style={chosen === 'ans_a' ? [styles.answerText, { backgroundColor: 'orange' }] : styles.answerText}>{`${currentQ.answers[0]}`}</Text>
-              </TouchableHighlight>
-              <TouchableHighlight disabled={chosen ? true : false} onPress={() => this.handleAnswerPress("ans_b")}>
-                <Text style={chosen === 'ans_b' ? [styles.answerText, { backgroundColor: 'orange' }] : styles.answerText}>{`${currentQ.answers[1]}`}</Text>
-              </TouchableHighlight>
-              {currentQ.answers_num == 3 && (
-                <TouchableHighlight disabled={chosen ? true : false} onPress={() => this.handleAnswerPress("ans_c")}>
-                  <Text style={chosen === 'ans_c' ? [styles.answerText, { backgroundColor: 'orange' }] : styles.answerText}>{`${
-                    currentQ.answers[2]
-                    }`}</Text>
+              <ScrollView style={styles.questionScrollView}>
+                <Text style={{ fontSize: 25 }}>{`${currentQ.question}`}</Text>
+                <TouchableHighlight disabled={chosen ? true : false} onPress={() => this.handleAnswerPress("ans_a")}>
+                  <Text style={chosen === 'ans_a' ? [styles.answerText, { backgroundColor: 'orange' }] : styles.answerText}>{`${currentQ.answers[0]}`}</Text>
                 </TouchableHighlight>
-              )}
+                <TouchableHighlight disabled={chosen ? true : false} onPress={() => this.handleAnswerPress("ans_b")}>
+                  <Text style={chosen === 'ans_b' ? [styles.answerText, { backgroundColor: 'orange' }] : styles.answerText}>{`${currentQ.answers[1]}`}</Text>
+                </TouchableHighlight>
+                {currentQ.answers_num == 3 && (
+                  <TouchableHighlight disabled={chosen ? true : false} onPress={() => this.handleAnswerPress("ans_c")}>
+                    <Text style={chosen === 'ans_c' ? [styles.answerText, { backgroundColor: 'orange' }] : styles.answerText}>{`${
+                      currentQ.answers[2]
+                      }`}</Text>
+                  </TouchableHighlight>
+                )}
+              </ScrollView>
             </View>
             <View style={styles.questionBrainView}>
               <Animated.Image

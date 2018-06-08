@@ -6,6 +6,7 @@ import {
   Modal,
   TouchableNativeFeedback,
   TouchableWithoutFeedback,
+  TouchableHighlight,
   Dimensions
 } from "react-native";
 import Svg, { Circle, Text as SvgText } from "react-native-svg";
@@ -26,6 +27,7 @@ export default class Lobby extends Component {
   state = {
     brainHeight: new Animated.Value(0),
     strokeAnim: new Animated.Value(0),
+    playersAnim: new Animated.Value(0),
     currentQ: null,
     questions: null,
     infoQuestion: null,
@@ -141,6 +143,8 @@ export default class Lobby extends Component {
           newQuestions[doc.id].aAnswerers = aAnswerers;
           newQuestions[doc.id].bAnswerers = bAnswerers;
           cAnswerers ? (newQuestions[doc.id].cAnswerers = cAnswerers) : null;
+          newQuestions.answers_num = data.answers_num;
+          newQuestions[doc.id].correct = data.correct;
         });
         this.setState({ questions: newQuestions });
       } else {
@@ -156,7 +160,20 @@ export default class Lobby extends Component {
         console.log("Event started!!!");
         const { total_users } = snap.docs[0].data();
         console.log("total_users: ", total_users);
-        this.setState({ totalUsers: total_users })
+        this.setState({ totalUsers: total_users }, () => {
+          Animated.sequence([Animated.spring(this.state.playersAnim, {
+            toValue: 39,
+            velocity: 0,
+            duration: 1500,
+            friction: 25,
+            delay: 500
+          }), Animated.spring(this.state.playersAnim, {
+            toValue: 6,
+            velocity: 0,
+            duration: 1500,
+            friction: 25
+          })]).start()
+        })
       } else {
         console.log("event not started");
       }
@@ -230,7 +247,7 @@ export default class Lobby extends Component {
       infoQuestion: null
     });
   };
-  
+
   closeResultSplash = () => {
     this.setState({
       allMarks: null
@@ -238,7 +255,7 @@ export default class Lobby extends Component {
   }
 
   render() {
-    let { brainHeight, strokeAnim, allMarks, topMark, winners, totalUsers } = this.state;
+    let { brainHeight, strokeAnim, allMarks, topMark, winners, totalUsers, playersAnim } = this.state;
     const { currentQ, questions, infoQuestion, animQuestion } = this.state;
     const { nextEvent, changeColour, colour, user } = this.props;
     const { height, width } = Dimensions.get("screen");
@@ -250,6 +267,10 @@ export default class Lobby extends Component {
     const colourSwell = strokeAnim.interpolate({
       inputRange: [0, 1],
       outputRange: ['blue', 'orange']
+    })
+    const playerSwell = playersAnim.interpolate({
+      inputRange: [0, 6],
+      outputRange: ['0deg', '6deg']
     })
     return (
       <View style={styles.lobbyContainer}>
@@ -331,7 +352,7 @@ export default class Lobby extends Component {
               )}
           </Svg>
         </View>
-        <View style={styles.lobbyView}>
+        <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
           <Animated.Image
             style={{ width: brainHeight, height: brainHeight }}
             source={{
@@ -339,18 +360,29 @@ export default class Lobby extends Component {
                 "http://pluspng.com/img-png/brain-png-red-brain-image-2540-2400.png"
             }}
           />
+          {totalUsers && <Animated.Text style={{ fontSize: 19, transform: [{ rotate: playerSwell }] }}>Event is live! <Text style={{ fontSize: 26, fontWeight: 'bold', color: 'whitesmoke' }}>
+            {totalUsers}
+          </Text>
+            {' '}brains currently in action</Animated.Text>}
         </View>
-        <View style={styles.lobbyView}>
-          <A.SvgImage
-            style={{
-              width: brainHeight,
-              height: brainHeight,
-              borderRadius: 25
-            }}
-            source={require("./svg/brain.svg")}
-          />
+        <View style={[styles.lobbyView, { borderRadius: 25 }]}>
+
+          <TouchableNativeFeedback background={TouchableNativeFeedback.Ripple('#FFF', true)} onPress={changeColour}>
+
+            <View style={[styles.lobbyView]}>
+              <A.SvgImage
+                style={{
+                  width: brainHeight,
+                  height: brainHeight,
+                  borderRadius: 25
+                }}
+                source={require("./svg/brain.svg")}
+              />
+            </View>
+          </TouchableNativeFeedback>
         </View>
-        <TouchableNativeFeedback onPress={changeColour}>
+
+        {/* <TouchableNativeFeedback onPress={changeColour}>
           <View
             style={[
               {
@@ -367,7 +399,7 @@ export default class Lobby extends Component {
               Press me to change colour
             </Text>
           </View>
-        </TouchableNativeFeedback>
+        </TouchableNativeFeedback> */}
       </View>
     );
   }

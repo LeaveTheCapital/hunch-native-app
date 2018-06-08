@@ -10,6 +10,7 @@ export default class QuestionInfo extends Component {
   render() {
     const { modalVisible } = this.state;
     const { question, closeInfo } = this.props;
+    console.log('question in QuestionInfo', question)
     return (
       <Modal
         animationType="fade"
@@ -26,12 +27,13 @@ export default class QuestionInfo extends Component {
               <Text style={{ fontSize: 25 }}>{`${question.question}`}</Text>
               <Text style={styles.answerText}>{`A: ${question.answers[0]}`}</Text>
               <Text style={styles.answerText}>{`B: ${question.answers[1]}`}</Text>
-              {question.hasOwnProperty('aAnswerers') && <Text style={styles.answerText}>{`People who answered A: ${
+              {question.answers_num == 3 && <Text style={styles.answerText}>{`C: ${question.answers[2]}`}</Text>}
+              {question.hasOwnProperty('aAnswerers') && <Text style={question.correct === 'ans_a' ? styles.correctAnswerText : styles.incorrectAnswerText}>{`A ${
                 question.aAnswerers
                 }`}</Text>}
-              {question.hasOwnProperty('bAnswerers') && <Text style={styles.answerText}>{`People who answered B: ${question.bAnswerers}`}</Text>}
+              {question.hasOwnProperty('bAnswerers') && <Text style={question.correct === 'ans_b' ? styles.correctAnswerText : styles.incorrectAnswerText}>{`B ${question.bAnswerers}`}</Text>}
               {question.hasOwnProperty('cAnswerers') && (
-                <Text style={styles.answerText}>{`people who answered C: ${question.cAnswerers}`}</Text>
+                <Text style={question.correct === 'ans_c' ? styles.correctAnswerText : styles.incorrectAnswerText}>{`C ${question.cAnswerers}`}</Text>
               )}
             </ScrollView>
           </View>

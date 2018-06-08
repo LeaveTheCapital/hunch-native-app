@@ -24,6 +24,7 @@ export default class Home extends Component {
   state = {
     nextEvent: null,
     lobby: false,
+    buyInPressed: false,
     colour: "hotpink"
   };
 
@@ -44,13 +45,15 @@ export default class Home extends Component {
     const { changeUserTickets } = this.props;
     const uid = this.props.user.uid;
     newNextEvent.boughtIn = true;
-    db.changeUsersTickets(uid, -1)
-      .then(res => {
-        db.addUserToEvent(uid, newNextEvent.id);
-        this.setState({ nextEvent: newNextEvent });
-      })
-      .then(res => changeUserTickets())
-      .catch(console.log);
+    this.setState({ buyInPressed: true }, () => {
+      db.changeUsersTickets(uid, -1)
+        .then(res => {
+          db.addUserToEvent(uid, newNextEvent.id);
+          this.setState({ nextEvent: newNextEvent });
+        })
+        .then(res => changeUserTickets())
+        .catch(console.log);
+    })
   };
 
   enterLobby = () => {
@@ -65,7 +68,7 @@ export default class Home extends Component {
   };
 
   render() {
-    const { nextEvent, lobby, colour } = this.state;
+    const { nextEvent, lobby, colour, buyInPressed } = this.state;
     const {
       hunchSwellSmall,
       hunchHeight,
@@ -74,7 +77,7 @@ export default class Home extends Component {
       openDrawer
     } = this.props;
     const { height, width } = Dimensions.get("screen");
-    console.log('new colour', colour)
+    // console.log('new colour', colour)
     return (
       <View style={[styles.homeContainer, { backgroundColor: colour }]}>
         <View>
@@ -104,6 +107,7 @@ export default class Home extends Component {
               user={user}
               handleBuyInPress={this.handleBuyInPress}
               enterLobby={this.enterLobby}
+              buyInPressed={buyInPressed}
             />
             <View style={{ flex: 2 }} />
           </View>
