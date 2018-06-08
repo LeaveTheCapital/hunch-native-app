@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, StyleSheet, Button, Keyboard, Dimensions } from "react-native";
+import { View, Text, StyleSheet, Button, Keyboard, Dimensions, TouchableWithoutFeedback } from "react-native";
 import { authDB, auth, db } from "./firebase";
 import axios from "axios";
 import { styles } from "./StyleSheet.js";
@@ -15,11 +15,18 @@ const User = t.struct({
   // terms: t.Boolean
 });
 
+const registerUser = t.struct({
+  email: t.String,
+  username: t.String,
+  password: t.String,
+  // terms: t.Boolean
+});
+
 const formStyles = {
   ...Form.stylesheet,
   formGroup: {
     normal: {
-      marginBottom: 20,
+      marginBottom: 10,
       // was 10
       width: 290
     }
@@ -106,6 +113,7 @@ export default class Login extends Component {
   };
 
   toggleSignInMode = () => {
+    const { signInMode } = this.state;
     this.setState({ signInMode: !signInMode })
   }
 
@@ -139,24 +147,32 @@ export default class Login extends Component {
   };
 
   render() {
-    const { keyboardVisible } = this.state;
+    const { keyboardVisible, signInMode } = this.state;
     const { height, width } = Dimensions.get("screen");
     return (
       <View
         style={
           !keyboardVisible
             ? styles.formContainer
-            : [styles.formContainer, { marginTop: 10 }]
+            : [styles.formContainer, { marginTop: 0 }]
         }
       >
-        <Form ref={c => (this._form = c)} type={User} options={options} value={this.state.value}
+        <Form ref={c => (this._form = c)} type={signInMode ? User : registerUser} options={options} value={this.state.value}
           onChange={this.onChange} />
         <Button
-          title="Sign In"
+          title={signInMode ? "Sign In" : "Register"}
           onPress={this.handleSubmit}
           style={styles.submitButton}
         />
-        {<Button title="Register" onPress={toggleSignInMode} />}
+        {signInMode ? (<View style={{ paddingTop: 3, textAlign: 'center' }}>
+          <Text style={{ textAlign: 'center' }}
+          >Don't have an account?
+          <TouchableWithoutFeedback onPress={this.toggleSignInMode}><Text style={{ color: 'blue' }}>{' '}Register</Text></TouchableWithoutFeedback></Text>
+        </View>) : (<View style={{ paddingTop: 3, textAlign: 'center' }}>
+          <Text style={{ textAlign: 'center' }}
+          >Already have an account?
+          <TouchableWithoutFeedback onPress={this.toggleSignInMode}><Text style={{ color: 'blue' }}>{' '}Sign in</Text></TouchableWithoutFeedback></Text>
+        </View>)}
       </View>
     );
   }

@@ -71,7 +71,7 @@ export default class App extends React.Component {
     const { hunchHeight } = this.state;
     const { height, width } = Dimensions.get("screen");
     const newHunchHeight =
-      hunchHeight >= height / 6.7 ? height / 12 : height / 6.7;
+      hunchHeight >= height / 6.7 ? height / 18 : height / 6.7;
     console.log(newHunchHeight);
     this.setState({
       hunchHeight: newHunchHeight
